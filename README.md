@@ -43,6 +43,15 @@ Assignments Included:
     1. Name Badge (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/6Awd6/1-701-name-badge">Link</a>)
   </summary>
   <br>
+
+  **Steps to Complete:**
+
+- Firstly, you have probably noticed that if you have a device with a notch, your badge might go behind un-usable spaces. We can fix this by using a SafeAreaView component. This component applies safe margins to the view, based on device requirements. To use it, wrap everything inside of the View container in a <SafeAreaView> with the following style: flex:1, width:"100%", height:"100%". This will fix the problem.
+
+<br>
+
+**Marking Scheme:**
+
   <table>
     <thead>
       <tr>
@@ -84,6 +93,31 @@ Assignments Included:
     2. Wireframing (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/XLNd4/2-301-creating-a-wireframe-for-a-hotel-booking-app">Link</a>)
   </summary>
   <br>
+
+**Steps to Complete**
+
+- This assessment doesn’t have specific steps to complete; rather this is a list of the screens you should model and what they should contain. How you wireframe them is up to you.
+
+
+- Home screen
+  - This should include a search box including location, number of adults, children and number of rooms. It should also include some ‘featured’ properties which have an image, a title and a location. 
+
+- Search results screen
+  - This should include a header including the search location, some refining elements that allow you to adjust the search radius and the series of matching properties - each with its own rating, name, location and price per night.
+
+- Details screen
+  - This is for when a user taps on a property to view more. You should have images of the property, extended details, including a description and a book now button.
+
+- Settings screen
+  - A simple setting screen that contains any essential settings for a user’s account.
+
+- A user flow diagram
+  - Connecting the above wireframes together.
+
+<br>
+
+**Marking Scheme**
+
   <table>
     <thead>
       <tr>
@@ -130,7 +164,22 @@ Assignments Included:
   <summary>
     3. Responsive Elements (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/0SEXT/2-701-responsive-noughts-and-crosses-ui">Link</a>)
   </summary>
+
   <br>
+
+  **Steps to Complete:**
+  - This assessment doesn’t have specific steps, but instead guidelines you should follow. Although the technical implementation is not as long, it might take a while to discover the correct approach.
+  - Your app UI should look identical to the screenshot but can vary in colour/style.
+  - You will need to use flex and flex-direction.
+  - You can take any approach to get the correct sized boxes, however, they must not be hardcoded values e.g. 100px and should be proportionate to the device width. They should also have a margin applied so that there is a gap between either side of the screen.
+  - Every element should be responsive, including the naughts and crosses which are just text elements inside views.  
+  - For full marks make sure your styling is elegant and appropriate, make use of stylesheet styles, not inline. 
+  - You should really combine all the skills we have learnt so far to make this app correctly.
+  - You are not expected to program the logic of the game. You are just replicating the UI as seen in the screenshot.
+
+  <br>
+
+  **Marking Scheme:**
   <table>
     <thead>
       <tr>
@@ -163,9 +212,23 @@ Assignments Included:
 <!-- Calculator App -->
 <details>
   <summary>
-    4. Calculator App (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/Soz15/3-201-creating-a-calculator">Link</a>)
+   4. Calculator App (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/Soz15/3-201-creating-a-calculator">Link</a>)
   </summary>
   <br>
+
+**Steps to Complete:**
+- Now you have a functioning calculator, feel free to customise this calculator however you’d like. Perhaps you could also add more functionality, such as the following:
+
+- Change the C button to AC whenever relevant
+
+- Add indicators to the calculator to reflect the current operator stored
+
+- Update the calculator to become a scientific calculator (e.g. it shows the mathematical equation when calculating - 5+5=10)
+
+<br>
+
+**Marking Scheme:**
+
   <table>
     <thead>
       <tr>
@@ -214,9 +277,17 @@ Assignments Included:
 <!-- Food App -->
 <details>
   <summary>
-    Food App (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/8Xb4D/4-301-creating-a-food-app">Link</a>)
+    5. Food App (<a href="https://www.coursera.org/learn/uol-cm3050-mobile-development/supplement/8Xb4D/4-301-creating-a-food-app">Link</a>)
   </summary>
   <br>
+
+**Steps to Complete:**
+- Refer to the Coursera Link
+
+<br>
+
+**Marking Scheme:**
+
   <table>
     <thead>
       <tr>
