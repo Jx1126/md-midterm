@@ -1,6 +1,6 @@
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
-import * as ScreenOrientation from 'expo-screen-orientation';
-import QRCode from 'react-native-qrcode-svg';
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import * as ScreenOrientation from "expo-screen-orientation";
+import QRCode from "react-native-qrcode-svg";
 
 export default function App() {
   ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_LEFT);
@@ -8,7 +8,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.safeareaview}>
       <View style={styles.container}>
-        <Text style={styles.helloText}>Hello  &#128075;</Text>
+        <Text style={styles.helloText}>Hello &#128075;</Text>
         <Text style={styles.imText}>I am</Text>
 
         <View style={styles.contentWrapper}>
@@ -47,130 +47,130 @@ export default function App() {
 }
 
 const user = {
-  username: 'wong jin xuan',
-  pronoun: 'he/him',
-  course: 'computer science',
-  moduleCode: 'cm3050',
-  module: 'mobile development',
-  github: 'https://github.com/jx1126',
+  username: "wong jin xuan",
+  pronoun: "he/him",
+  course: "computer science",
+  moduleCode: "cm3050",
+  module: "mobile development",
+  github: "https://github.com/jx1126",
 };
 
 const styles = StyleSheet.create({
   safeareaview: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#3f418d',
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#3f418d",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 8,
   },
   helloText: {
     fontSize: 30,
-    fontWeight: 'bold',
-    color: '#f9eded',
+    fontWeight: "bold",
+    color: "#f9eded",
     letterSpacing: 3,
     marginBottom: 10,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   imText: {
     fontSize: 18,
-    color: '#f9eded',
+    color: "#f9eded",
     letterSpacing: 3,
     marginBottom: 20,
-    textAlign: 'center',
-    textTransform: 'uppercase',
+    textAlign: "center",
+    textTransform: "uppercase",
   },
   contentWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 20,
   },
   contentContainer: {
-    width: 'auto',
+    width: "auto",
     minHeight: 220,
     minWidth: 500,
-    backgroundColor: '#f9eded',
+    backgroundColor: "#f9eded",
     borderRadius: 25,
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 16,
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
   usernameText: {
     fontSize: 35,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     letterSpacing: 3,
-    color: '#3f418d',
-    textTransform: 'uppercase',
+    color: "#3f418d",
+    textTransform: "uppercase",
   },
   pronounText: {
-    color: '#3f418d',
+    color: "#3f418d",
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 4,
   },
   courseText: {
     fontSize: 18,
-    textAlign: 'center',
-    color: '#3f418d',
-    textTransform: 'capitalize',
+    textAlign: "center",
+    color: "#3f418d",
+    textTransform: "capitalize",
     marginTop: 4,
   },
   informationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
     paddingHorizontal: 20,
     marginTop: 16,
     gap: 30,
   },
   moduleContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
     borderTopWidth: 1,
-    borderTopColor: '#3f418d',
+    borderTopColor: "#3f418d",
     paddingTop: 10,
   },
   moduleTitle: {
-    textTransform: 'uppercase',
-    color: '#3f418d',
-    textAlign: 'center',
+    textTransform: "uppercase",
+    color: "#3f418d",
+    textAlign: "center",
   },
   moduleDescription: {
-    textTransform: 'uppercase',
-    color: '#3f418d',
-    textAlign: 'center',
+    textTransform: "uppercase",
+    color: "#3f418d",
+    textAlign: "center",
     letterSpacing: 1,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   qrWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingLeft: 20,
   },
   qrContainer: {
-    backgroundColor: '#f9eded',
+    backgroundColor: "#f9eded",
     padding: 12,
     borderRadius: 15,
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
   qrText: {
-    color: '#3f418d',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "#3f418d",
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 8,
-  }
+  },
 });
