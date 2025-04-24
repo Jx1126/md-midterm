@@ -83,6 +83,7 @@ export default function App() {
 
     if (value === "=") {
       calculateEquals();
+      setOperatorValue(null);
       return;
     }
 
@@ -129,7 +130,7 @@ export default function App() {
           <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("%")} >
             <Text style={styles.functionText}>%</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("/")} >
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "/" && styles.storedOperatorButton]} onPress={() => buttonPressed("/")} >
             <Text style={styles.operatorText}>&#247;</Text>
           </TouchableOpacity>
         </View>
@@ -144,7 +145,7 @@ export default function App() {
           <TouchableOpacity style={styles.button} onPress={() => buttonPressed("9")} >
             <Text style={styles.numericText}>9</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("*")} >
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "*" && styles.storedOperatorButton]} onPress={() => buttonPressed("*")} >
             <Text style={styles.operatorText}>&#215;</Text>
           </TouchableOpacity>
         </View>
@@ -159,7 +160,7 @@ export default function App() {
           <TouchableOpacity style={styles.button} onPress={() => buttonPressed("6")} >
             <Text style={styles.numericText}>6</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("-")} >
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "-" && styles.storedOperatorButton]} onPress={() => buttonPressed("-")} >
             <Text style={styles.operatorText}>&#8722;</Text>
           </TouchableOpacity>
         </View>
@@ -174,7 +175,7 @@ export default function App() {
           <TouchableOpacity style={styles.button} onPress={() => buttonPressed("3")} >
             <Text style={styles.numericText}>3</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("+")} >
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "+" && styles.storedOperatorButton]} onPress={() => buttonPressed("+")} >
             <Text style={styles.operatorText}>+</Text>
           </TouchableOpacity>
         </View>
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
   functionButton: {
     backgroundColor: "#6A6D8F",
   },
-  operationButton: {
+  operatorButton: {
     backgroundColor: "#3a5fcd20",
     borderWidth: 3,
     borderColor: "#3A5FCD",
@@ -243,6 +244,12 @@ const styles = StyleSheet.create({
   },
   equalButton: {
     backgroundColor: "#4A90E2",
+  },
+  storedOperatorButton: {
+    // backgroundColor: '#4A90E2',
+    borderWidth: 3,
+    borderColor: "#3A5FCD",
+    backgroundColor: "#3A5FCD80",
   },
   numericText: {
     color: "#F4F6FB",
