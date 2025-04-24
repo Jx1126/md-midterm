@@ -3,6 +3,37 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 
 export default function App() {
+
+  const [answerValue, setAnswerValue] = useState(0);
+  const [readyToReplace, setReadyToReplace] = useState(true);
+  const [memoryValue, setMemoryValue] = useState(0);
+  const [operatorValue, setOperatorValue] = useState(null);
+
+  const handleNumber = (value) => {
+    if (readyToReplace) {
+      setReadyToReplace(false);
+      return value;
+    } else {
+      return answerValue === "0" ? value : answerValue + value;
+    }
+  }
+
+  const buttonPressed = (value) => {
+    if (!isNaN(value)) {
+      const updatedValue = handleNumber(value);
+      setAnswerValue(updatedValue);
+      return;
+    }
+
+    if (value === "C") {
+      setAnswerValue(0);
+      setMemoryValue(0);
+      setOperatorValue(null);
+      setReadyToReplace(true);
+      return;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.body}>
 
@@ -10,14 +41,14 @@ export default function App() {
 
       <View style={styles.textWrapper}>
         <Text style={styles.historyText}>123</Text>
-        <Text style={styles.resultText}>123+123</Text>
+        <Text style={styles.resultText}>{ answerValue }</Text>
       </View>
 
       <View style={styles.container}>
 
         <View style={styles.row}>
-          <TouchableOpacity style={[styles.button, styles.functionButton]}>
-            <Text style={styles.numericText}>AC</Text>
+          <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("C")}>
+            <Text style={styles.numericText}>C</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.functionButton]}>
             <Text style={styles.functionText}>&#177;</Text>
@@ -25,61 +56,61 @@ export default function App() {
           <TouchableOpacity style={[styles.button, styles.functionButton]}>
             <Text style={styles.functionText}>%</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("/")} >
             <Text style={styles.operatorText}>&#247;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("7")}>
             <Text style={styles.numericText}>7</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("8")}>
             <Text style={styles.numericText}>8</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("9")}>
             <Text style={styles.numericText}>9</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("*")}>
             <Text style={styles.operatorText}>&#215;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("4")}>
             <Text style={styles.numericText}>4</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("5")}>
             <Text style={styles.numericText}>5</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("6")}>
             <Text style={styles.numericText}>6</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("-")}>
             <Text style={styles.operatorText}>&#8722;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("1")}>
             <Text style={styles.numericText}>1</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("2")}>
             <Text style={styles.numericText}>2</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("3")}>
             <Text style={styles.numericText}>3</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("+")}>
             <Text style={styles.operatorText}>+</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={[styles.button, styles.zeroButton]}>
+          <TouchableOpacity style={[styles.button, styles.zeroButton]} onPress={() => buttonPressed("0")}>
             <Text style={styles.zeroText}>0</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed(".")}>
             <Text style={styles.operatorText}>.</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.equalButton]}>
@@ -94,7 +125,7 @@ export default function App() {
 }
 
 const screenDimension = Dimensions.get('window');
-const buttonDimension = (screenDimension.width / 4 * 0.9)
+const buttonDimension = (screenDimension.width / 4 * 0.9);
 
 const styles = StyleSheet.create({
   body: {
