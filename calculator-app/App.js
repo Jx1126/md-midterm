@@ -7,6 +7,7 @@ export default function App() {
   const [readyToReplace, setReadyToReplace] = useState(true);
   const [memoryValue, setMemoryValue] = useState(0);
   const [operatorValue, setOperatorValue] = useState(null);
+  const [allClear, setAllClear] = useState(true);
 
   const handleNumber = (value) => {
     if (readyToReplace) {
@@ -48,16 +49,22 @@ export default function App() {
 
   const buttonPressed = (value) => {
     if (!isNaN(value)) {
+      setAllClear(false);
       const updatedValue = handleNumber(value);
       setAnswerValue(updatedValue);
       return;
     }
 
     if (value === "C") {
-      setAnswerValue(0);
-      setMemoryValue(0);
-      setOperatorValue(null);
+      if (allClear) {
+        setAnswerValue(0);
+        setMemoryValue(0);
+        setOperatorValue(null);
+      } else {
+        setAnswerValue(0);
+      }
       setReadyToReplace(true);
+      setAllClear(true);
       return;
     }
 
@@ -114,7 +121,7 @@ export default function App() {
       <View style={styles.container}>
         <View style={styles.row}>
           <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("C")} >
-            <Text style={styles.numericText}>C</Text>
+            <Text style={styles.numericText}>{ allClear ? "AC" : "C" }</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("+/-")} >
             <Text style={styles.functionText}>&#177;</Text>
