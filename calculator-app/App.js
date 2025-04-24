@@ -10,6 +10,7 @@ export default function App() {
   const [operatorValue, setOperatorValue] = useState(null);
   const [allClear, setAllClear] = useState(true);
   const [historyText, setHistoryText] = useState("");
+  const [calculated, setCalculated] = useState(false);
 
   const handleNumber = (value) => {
     if (readyToReplace) {
@@ -51,6 +52,12 @@ export default function App() {
 
   const buttonPressed = (value) => {
     if (!isNaN(value)) {
+      if (calculated) {
+        setHistoryText("");
+        setAnswerValue(0);
+        setCalculated(false);
+      }
+
       setAllClear(false);
       const updatedValue = handleNumber(value);
       setAnswerValue(updatedValue);
@@ -88,7 +95,11 @@ export default function App() {
     if (value === "=") {
       calculateEquals();
       setOperatorValue(null);
-      setHistoryText(`${historyText} ${answerValue}`);
+
+      if (!calculated) {
+        setHistoryText(`${historyText} ${answerValue}`);
+        setCalculated(true);
+      }
       return;
     }
 
