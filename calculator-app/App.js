@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Dimensions, SafeAreaView, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import { AutoSizeText, ResizeTextMode } from 'react-native-auto-size-text';
 
 export default function App() {
   const [answerValue, setAnswerValue] = useState(0);
@@ -119,8 +120,12 @@ export default function App() {
       <StatusBar style="light" />
 
       <View style={styles.textWrapper}>
-        <Text style={styles.historyText}>{historyText}</Text>
-        <Text style={styles.resultText}>{answerValue}</Text>
+        <AutoSizeText fontSize={30} numberOfLines={1} mode={ResizeTextMode.max_lines} style={styles.historyText}>
+          {historyText}
+        </AutoSizeText>
+        <AutoSizeText fontSize={50} numberOfLines={1} mode={ResizeTextMode.max_lines} style={styles.resultText}>
+          {answerValue}
+        </AutoSizeText>
       </View>
 
       <View style={styles.container}>
