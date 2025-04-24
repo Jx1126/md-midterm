@@ -106,6 +106,10 @@ export default function App() {
     }
 
     if (value === "=") {
+      if (operatorValue && readyToReplace) {
+        return;
+      }
+
       calculateEquals();
       setOperatorValue(null);
 
