@@ -88,13 +88,15 @@ export default function App() {
       if (operatorValue !== null) {
         const chainResult = calculateEquals();
         setMemoryValue(chainResult);
+        setHistoryText(`${formatNumber(chainResult)} ${value}`);
       } else {
         setMemoryValue(answerValue);
+        setHistoryText(`${formatNumber(answerValue)} ${value}`);
       }
 
       setOperatorValue(value);
-      setHistoryText(`${formatNumber(answerValue)} ${value}`);
       setReadyToReplace(true);
+      setCalculated(false);
       return;
     }
 
