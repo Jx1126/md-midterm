@@ -8,6 +8,7 @@ export default function App() {
   const [memoryValue, setMemoryValue] = useState(0);
   const [operatorValue, setOperatorValue] = useState(null);
   const [allClear, setAllClear] = useState(true);
+  const [historyText, setHistoryText] = useState("");
 
   const handleNumber = (value) => {
     if (readyToReplace) {
@@ -30,10 +31,10 @@ export default function App() {
       case "-":
         result = previous - current;
         break;
-      case "*":
+      case "×":
         result = previous * current;
         break;
-      case "/":
+      case "÷":
         result = previous / current;
         break;
       default:
@@ -60,6 +61,7 @@ export default function App() {
         setAnswerValue(0);
         setMemoryValue(0);
         setOperatorValue(null);
+        setHistoryText("");
       } else {
         setAnswerValue(0);
       }
@@ -68,7 +70,7 @@ export default function App() {
       return;
     }
 
-    if (value === "/" || value === "*" || value === "-" || value === "+") {
+    if (value === "÷" || value === "×" || value === "−" || value === "+") {
       if (operatorValue !== null) {
         const chainResult = calculateEquals();
         setMemoryValue(chainResult);
@@ -77,6 +79,7 @@ export default function App() {
       }
 
       setOperatorValue(value);
+      setHistoryText(`${answerValue} ${value}`);
       setReadyToReplace(true);
       return;
     }
@@ -84,6 +87,7 @@ export default function App() {
     if (value === "=") {
       calculateEquals();
       setOperatorValue(null);
+      setHistoryText(`${historyText} ${answerValue}`);
       return;
     }
 
@@ -115,7 +119,7 @@ export default function App() {
       <StatusBar style="light" />
 
       <View style={styles.textWrapper}>
-        <Text style={styles.historyText}>123</Text>
+        <Text style={styles.historyText}>{historyText}</Text>
         <Text style={styles.resultText}>{answerValue}</Text>
       </View>
 
@@ -130,8 +134,8 @@ export default function App() {
           <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("%")} >
             <Text style={styles.functionText}>%</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "/" && styles.storedOperatorButton]} onPress={() => buttonPressed("/")} >
-            <Text style={styles.operatorText}>&#247;</Text>
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "÷" && styles.storedOperatorButton]} onPress={() => buttonPressed("÷")} >
+            <Text style={styles.operatorText}>÷</Text>
           </TouchableOpacity>
         </View>
 
@@ -145,8 +149,8 @@ export default function App() {
           <TouchableOpacity style={styles.button} onPress={() => buttonPressed("9")} >
             <Text style={styles.numericText}>9</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "*" && styles.storedOperatorButton]} onPress={() => buttonPressed("*")} >
-            <Text style={styles.operatorText}>&#215;</Text>
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "×" && styles.storedOperatorButton]} onPress={() => buttonPressed("×")} >
+            <Text style={styles.operatorText}>×</Text>
           </TouchableOpacity>
         </View>
 
@@ -160,8 +164,8 @@ export default function App() {
           <TouchableOpacity style={styles.button} onPress={() => buttonPressed("6")} >
             <Text style={styles.numericText}>6</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "-" && styles.storedOperatorButton]} onPress={() => buttonPressed("-")} >
-            <Text style={styles.operatorText}>&#8722;</Text>
+          <TouchableOpacity style={[styles.button, styles.operatorButton, operatorValue === "−" && styles.storedOperatorButton]} onPress={() => buttonPressed("−")} >
+            <Text style={styles.operatorText}>−</Text>
           </TouchableOpacity>
         </View>
 
