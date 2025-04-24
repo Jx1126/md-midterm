@@ -30,7 +30,7 @@ export default function App() {
       case "+":
         result = previous + current;
         break;
-      case "-":
+      case "−":
         result = previous - current;
         break;
       case "×":
@@ -93,6 +93,9 @@ export default function App() {
         const chainResult = calculateEquals();
         setMemoryValue(chainResult);
         setHistoryText(`${formatNumber(chainResult)} ${value}`);
+      } else if (operatorValue === null && memoryValue === 0) {
+        setMemoryValue(answerValue);
+        setHistoryText(`${formatNumber(answerValue)} ${value}`);
       } else {
         setHistoryText(`${formatNumber(memoryValue)} ${value}`);
       }
