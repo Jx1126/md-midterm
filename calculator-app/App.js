@@ -96,6 +96,9 @@ export default function App() {
   );
 }
 
+const screenDimension = Dimensions.get('window');
+const buttonDimension = (screenDimension.width / 4 * 0.9)
+
 const styles = StyleSheet.create({
   body: {
     flex: 1,
@@ -104,23 +107,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 },
   container: {
-    width: '95%',
-    height: '60%',
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    height: screenDimension.height * 0.6,
   },
   textWrapper: {
-    width: '90%',
+    width: '100%',
+    paddingHorizontal: 10,
     justifyContent: 'flex-end',
   },
   row: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 10,
   },
   button: {
-    flex: 1,
-    aspectRatio: 1,
-    borderRadius: '100%',
+    width: buttonDimension,
+    height: buttonDimension,
+    borderRadius: buttonDimension / 2,
     backgroundColor: '#1E1F29',
     justifyContent: 'center',
     alignItems: 'center',
@@ -169,5 +174,6 @@ const styles = StyleSheet.create({
     fontSize: 50,
     marginBottom: 10,
     textAlign: 'right',
+    lineHeight: buttonDimension,
   },
 });
