@@ -51,7 +51,7 @@ export default function App() {
   };
 
   const formatNumber = (number) => {
-    const [whole, decimal] = number.toString().split(".");
+    const [whole, decimal] = String(number).split(".");
     const formattedWhole = parseFloat(whole).toLocaleString("en-US");
     return decimal ? `${formattedWhole},${decimal}` : formattedWhole;
   };
@@ -85,18 +85,20 @@ export default function App() {
     }
 
     if (value === "÷" || value === "×" || value === "−" || value === "+") {
-      if (operatorValue !== null) {
+      if (calculated) {
+        setMemoryValue(answerValue);
+        setHistoryText(`${formatNumber(answerValue)} ${value}`);
+        setCalculated(false);
+      } else if (operatorValue !== null && !readyToReplace) {
         const chainResult = calculateEquals();
         setMemoryValue(chainResult);
         setHistoryText(`${formatNumber(chainResult)} ${value}`);
       } else {
-        setMemoryValue(answerValue);
-        setHistoryText(`${formatNumber(answerValue)} ${value}`);
+        setHistoryText(`${formatNumber(memoryValue)} ${value}`);
       }
-
+    
       setOperatorValue(value);
       setReadyToReplace(true);
-      setCalculated(false);
       return;
     }
 
