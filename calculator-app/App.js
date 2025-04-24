@@ -76,16 +76,13 @@ export default function App() {
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.numericText}>A</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.numericText}>0</Text>
+          <TouchableOpacity style={[styles.button, styles.zeroButton]}>
+            <Text style={styles.zeroText}>0</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.operatorText}>.</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]}>
+          <TouchableOpacity style={[styles.button, styles.equalButton]}>
             <Text style={styles.operatorText}>=</Text>
           </TouchableOpacity>
         </View>
@@ -138,29 +135,32 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#3A5FCD',
   },
+  zeroButton: {
+    width: buttonDimension * 2,
+    borderRadius: buttonDimension / 2,
+  },
+  equalButton: {
+    backgroundColor: '#4A90E2',
+  },
   numericText: {
-    flex: 1,
     color: '#F4F6FB',
     fontSize: 32,
     textAlign: 'center',
-    textAlignVertical: 'center',
-    includeFontPadding: false,
   },
   functionText: {
-    flex: 1,
     color: '#F4F6FB',
     fontSize: 40,
     textAlign: 'center',
-    textAlignVertical: 'center',
-    includeFontPadding: false,
   },
   operatorText: {
-    flex: 1,
     color: '#AFCBFF',
     fontSize: 40,
     textAlign: 'center',
-    textAlignVertical: 'center',
-    includeFontPadding: false,
+  },
+  zeroText: {
+    color: '#F4F6FB',
+    fontSize: 32,
+    textAlign: 'left',
   },
   historyText: {
     color: '#505050',
