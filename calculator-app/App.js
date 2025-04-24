@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, SafeAreaView, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 
 export default function App() {
-
   const [answerValue, setAnswerValue] = useState(0);
   const [readyToReplace, setReadyToReplace] = useState(true);
   const [memoryValue, setMemoryValue] = useState(0);
@@ -16,7 +15,36 @@ export default function App() {
     } else {
       return answerValue === "0" ? value : answerValue + value;
     }
-  }
+  };
+
+  const calculateEquals = () => {
+    const previous = parseFloat(memoryValue);
+    const current = parseFloat(answerValue);
+    let result = 0;
+
+    switch (operatorValue) {
+      case "+":
+        result = previous + current;
+        break;
+      case "-":
+        result = previous - current;
+        break;
+      case "*":
+        result = previous * current;
+        break;
+      case "/":
+        result = previous / current;
+        break;
+      default:
+        return;
+    }
+
+    setMemoryValue(0);
+    setReadyToReplace(true);
+    setAnswerValue(result);
+
+    return result;
+  };
 
   const buttonPressed = (value) => {
     if (!isNaN(value)) {
@@ -32,28 +60,66 @@ export default function App() {
       setReadyToReplace(true);
       return;
     }
+
+    if (value === "/" || value === "*" || value === "-" || value === "+") {
+      if (operatorValue !== null) {
+        const chainResult = calculateEquals();
+        setMemoryValue(chainResult);
+      } else {
+        setMemoryValue(answerValue);
+      }
+
+      setOperatorValue(value);
+      setReadyToReplace(true);
+      return;
+    }
+
+    if (value === "=") {
+      calculateEquals();
+      return;
+    }
+
+    if (value === "+/-") {
+      const updatedValue = parseFloat(answerValue) * -1;
+      setAnswerValue(updatedValue);
+      return;
+    }
+
+    if (value === "%") {
+      const updatedValue = parseFloat(answerValue) * 0.01;
+      setAnswerValue(updatedValue);
+      return;
+    }
+
+    if (value === ".") {
+      if (answerValue.includes(".")) {
+        return;
+      } else {
+        const updatedValue = answerValue + value;
+        setAnswerValue(updatedValue);
+        return;
+      }
+    }
   };
 
   return (
     <SafeAreaView style={styles.body}>
-
       <StatusBar style="light" />
 
       <View style={styles.textWrapper}>
         <Text style={styles.historyText}>123</Text>
-        <Text style={styles.resultText}>{ answerValue }</Text>
+        <Text style={styles.resultText}>{answerValue}</Text>
       </View>
 
       <View style={styles.container}>
-
         <View style={styles.row}>
-          <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("C")}>
+          <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("C")} >
             <Text style={styles.numericText}>C</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.functionButton]}>
+          <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("+/-")} >
             <Text style={styles.functionText}>&#177;</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.functionButton]}>
+          <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("%")} >
             <Text style={styles.functionText}>%</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("/")} >
@@ -62,149 +128,147 @@ export default function App() {
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("7")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("7")} >
             <Text style={styles.numericText}>7</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("8")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("8")} >
             <Text style={styles.numericText}>8</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("9")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("9")} >
             <Text style={styles.numericText}>9</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("*")}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("*")} >
             <Text style={styles.operatorText}>&#215;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("4")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("4")} >
             <Text style={styles.numericText}>4</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("5")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("5")} >
             <Text style={styles.numericText}>5</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("6")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("6")} >
             <Text style={styles.numericText}>6</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("-")}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("-")} >
             <Text style={styles.operatorText}>&#8722;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("1")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("1")} >
             <Text style={styles.numericText}>1</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("2")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("2")} >
             <Text style={styles.numericText}>2</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("3")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed("3")} >
             <Text style={styles.numericText}>3</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("+")}>
+          <TouchableOpacity style={[styles.button, styles.operationButton]} onPress={() => buttonPressed("+")} >
             <Text style={styles.operatorText}>+</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity style={[styles.button, styles.zeroButton]} onPress={() => buttonPressed("0")}>
+          <TouchableOpacity style={[styles.button, styles.zeroButton]} onPress={() => buttonPressed("0")} >
             <Text style={styles.zeroText}>0</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => buttonPressed(".")}>
+          <TouchableOpacity style={styles.button} onPress={() => buttonPressed(".")} >
             <Text style={styles.operatorText}>.</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.equalButton]}>
+          <TouchableOpacity style={[styles.button, styles.equalButton]} onPress={() => buttonPressed("=")} >
             <Text style={styles.operatorText}>=</Text>
           </TouchableOpacity>
         </View>
-
       </View>
-
     </SafeAreaView>
   );
 }
 
-const screenDimension = Dimensions.get('window');
-const buttonDimension = (screenDimension.width / 4 * 0.9);
+const screenDimension = Dimensions.get("window");
+const buttonDimension = (screenDimension.width / 4) * 0.9;
 
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#121212',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-},
+    backgroundColor: "#121212",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   container: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 10,
     paddingBottom: 10,
     height: screenDimension.height * 0.6,
   },
   textWrapper: {
-    width: '100%',
+    width: "100%",
     paddingHorizontal: 10,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   row: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   button: {
     width: buttonDimension,
     height: buttonDimension,
     borderRadius: buttonDimension / 2,
-    backgroundColor: '#1E1F29',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#1E1F29",
+    justifyContent: "center",
+    alignItems: "center",
   },
   functionButton: {
-    backgroundColor: '#6A6D8F'
+    backgroundColor: "#6A6D8F",
   },
   operationButton: {
-    backgroundColor: '#3a5fcd20',
+    backgroundColor: "#3a5fcd20",
     borderWidth: 3,
-    borderColor: '#3A5FCD',
+    borderColor: "#3A5FCD",
   },
   zeroButton: {
     width: buttonDimension * 2,
     borderRadius: buttonDimension / 2,
   },
   equalButton: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: "#4A90E2",
   },
   numericText: {
-    color: '#F4F6FB',
+    color: "#F4F6FB",
     fontSize: 32,
-    textAlign: 'center',
+    textAlign: "center",
   },
   functionText: {
-    color: '#F4F6FB',
+    color: "#F4F6FB",
     fontSize: 40,
-    textAlign: 'center',
+    textAlign: "center",
   },
   operatorText: {
-    color: '#AFCBFF',
+    color: "#AFCBFF",
     fontSize: 40,
-    textAlign: 'center',
+    textAlign: "center",
   },
   zeroText: {
-    color: '#F4F6FB',
+    color: "#F4F6FB",
     fontSize: 32,
-    textAlign: 'left',
+    textAlign: "left",
   },
   historyText: {
-    color: '#505050',
+    color: "#505050",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    textAlign: 'right',
+    textAlign: "right",
   },
   resultText: {
-    color: '#D0D8F2',
+    color: "#D0D8F2",
     fontSize: 50,
     marginBottom: 10,
-    textAlign: 'right',
+    textAlign: "right",
     lineHeight: buttonDimension,
   },
 });
