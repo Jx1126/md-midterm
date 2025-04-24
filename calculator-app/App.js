@@ -50,6 +50,12 @@ export default function App() {
     return result;
   };
 
+  const formatNumber = (number) => {
+    const [whole, decimal] = number.toString().split(".");
+    const formattedWhole = parseFloat(whole).toLocaleString("en-US");
+    return decimal ? `${formattedWhole},${decimal}` : formattedWhole;
+  };
+
   const buttonPressed = (value) => {
     if (!isNaN(value)) {
       if (calculated) {
@@ -87,7 +93,7 @@ export default function App() {
       }
 
       setOperatorValue(value);
-      setHistoryText(`${answerValue} ${value}`);
+      setHistoryText(`${formatNumber(answerValue)} ${value}`);
       setReadyToReplace(true);
       return;
     }
@@ -97,7 +103,7 @@ export default function App() {
       setOperatorValue(null);
 
       if (!calculated) {
-        setHistoryText(`${historyText} ${answerValue}`);
+        setHistoryText(`${historyText} ${formatNumber(answerValue)}`);
         setCalculated(true);
       }
       return;
@@ -135,7 +141,7 @@ export default function App() {
           {historyText}
         </AutoSizeText>
         <AutoSizeText fontSize={50} numberOfLines={1} mode={ResizeTextMode.max_lines} style={styles.resultText}>
-          {answerValue}
+          {formatNumber(answerValue)}
         </AutoSizeText>
       </View>
 
@@ -266,7 +272,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#4A90E2",
   },
   storedOperatorButton: {
-    // backgroundColor: '#4A90E2',
     borderWidth: 3,
     borderColor: "#3A5FCD",
     backgroundColor: "#3A5FCD80",
