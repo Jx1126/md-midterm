@@ -88,6 +88,8 @@ const SplitText: React.FC<SplitTextProps> = ({
         }))
     );
 
+    const AnimatedSpan = animated('span');
+
     return (
         <p
             ref={ref}
@@ -102,7 +104,7 @@ const SplitText: React.FC<SplitTextProps> = ({
                             .reduce((acc, w) => acc + w.length, 0) + letterIndex;
 
                         return (
-                            <animated.span
+                            <AnimatedSpan
                                 key={`${uniqueId}-letter-${index}`}
                                 style={{
                                     ...springs[index],
@@ -111,8 +113,8 @@ const SplitText: React.FC<SplitTextProps> = ({
                                     willChange: 'transform, opacity'
                                 }}
                             >
-                                {letter}
-                            </animated.span>
+                            {letter}
+                            </AnimatedSpan>
                         );
                     })}
                     <span style={{ display: 'inline-block', width: '0.3em' }}>&nbsp;</span>
