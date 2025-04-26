@@ -26,9 +26,9 @@ export default function Home() {
             text="Jin軒's"
             className="text-8xl font-bold text-center mb-8"
             delay={50}
-            animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }} // More dramatic starting position
+            animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }}
             animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-            easing={easings.easeOutElastic} // Using elastic easing for bouncy effect
+            easing={easings.easeOutElastic}
             threshold={0.1}
             rootMargin="-20px"
             onLetterAnimationComplete={handleAnimationComplete}
@@ -38,9 +38,9 @@ export default function Home() {
             text="Mobile Development Midterm Assignments!"
             className="text-5xl font-bold text-center mb-8"
             delay={20}
-            animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }} // More dramatic starting position
+            animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }}
             animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
-            easing={easings.easeOutElastic} // Using elastic easing for bouncy effect
+            easing={easings.easeOutElastic}
             threshold={0.1}
             rootMargin="-20px"
             onLetterAnimationComplete={handleAnimationComplete}
