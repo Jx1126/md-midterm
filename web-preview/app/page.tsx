@@ -55,29 +55,29 @@ export default function Home() {
         suppressHydrationWarning
       >
 
-        <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
-          <Link href="/name-badge">
+        <Link href="/name-badge">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <span className="text-xl px-8">Week 2 - Name Badge App</span>
-          </Link>
-        </SpotlightCard>
+          </SpotlightCard>
+        </Link>
 
-        <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
-          <Link href="/name-badge">
+        <Link href="/hotel-wireframe">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <span className="text-xl px-8">Week 3 - Hotel App Wireframe</span>
-          </Link>
-        </SpotlightCard>
+          </SpotlightCard>
+        </Link>
 
-        <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
-          <Link href="/responsive-elements">
+        <Link href="/responsive-elements">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <span className="text-xl px-8">Week 4 - Responsive Elements App</span>
-          </Link>
-        </SpotlightCard>
+          </SpotlightCard>
+        </Link>
 
-        <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
-          <Link href="/calculator">
+        <Link href="/calculator">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
             <span className="text-xl px-8">Week 5 - Calculator App</span>
-          </Link>
-        </SpotlightCard>
+          </SpotlightCard>
+        </Link>
 
       </div>
     </main>
