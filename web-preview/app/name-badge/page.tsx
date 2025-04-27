@@ -61,10 +61,10 @@ export default function NameBadgePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center flex-col">
+    <div className="min-h-screen flex items-center justify-center flex-col gap-5">
       <SplitText
         text="Week 2 - Name Badge"
-        className="text-4xl font-bold text-center mb-8 z-10"
+        className="text-4xl font-bold text-center z-10"
         delay={50}
         animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }}
         animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
@@ -73,6 +73,20 @@ export default function NameBadgePage() {
         rootMargin="-20px"
         onLetterAnimationComplete={handleAnimationComplete}
       />
+
+      <a href="https://snack.expo.dev/@jx1126/week-2---name-badge?platform=android" target="_blank" rel="noopener noreferrer">
+        <SplitText
+          text="Click to view snacks expo in browser"
+          className="text-lg font-semibold text-center mb-16 z-10 text-white/70"
+          delay={30}
+          animationFrom={{ opacity: 0, transform: 'translate3d(0,100px,0)' }}
+          animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+          easing={easings.easeOutElastic}
+          threshold={0.1}
+          rootMargin="-20px"
+          onLetterAnimationComplete={handleAnimationComplete}
+        />
+      </a>
 
       <div
         ref={snackContainerRef}
