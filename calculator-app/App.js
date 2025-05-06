@@ -53,7 +53,7 @@ export default function App() {
   const formatNumber = (number) => {
     const [whole, decimal] = String(number).split(".");
     const formattedWhole = parseFloat(whole).toLocaleString("en-US");
-    return decimal ? `${formattedWhole},${decimal}` : formattedWhole;
+    return decimal ? `${formattedWhole}.${decimal}` : formattedWhole;
   };
 
   const buttonPressed = (value) => {
