@@ -12,8 +12,9 @@ export default function App() {
     return (
       <Cell
         height={290}
-        backgroundColor={'#fff0'}
-        hightlightColor="#ccc"
+        backgroundColor={'white'}
+        highlightColor="#cccccc"
+        onPress={props.action}
         {...props}
         cellContentView={
           <View style={styles.cellContainer}>
@@ -31,7 +32,7 @@ export default function App() {
               </View>
             </View>
 
-            <View>
+            <View style={styles.textWrapper}>
               <Text style={styles.restaurantTitle}>
                 {props.title}
               </Text>
@@ -45,7 +46,7 @@ export default function App() {
     );
   }
 
-  function HomeScreen() {
+  function HomeScreen({navigation}) {
     return (
       <View style={styles.body}>
         <ScrollView>
@@ -54,8 +55,35 @@ export default function App() {
               <HomeScreenCell
                 title="Joe's Gelato"
                 tagline="Dessert, Ice cream, £££"
-                eta="50+ mins"
+                eta="10 mins"
                 imgUri={require('./images/restaurant-1.jpg')}
+                action={() => navigation.navigate('Menu', {
+                  sections: [
+                    {
+                      'title': 'Gelato',
+                      'contents':[
+                        {'title':'Vanilla'},
+                      ],
+                    }
+                  ]
+                })}
+              />
+
+              <HomeScreenCell
+                title="Joe's Pancakes"
+                tagline="Dessert, Ice cream, £££"
+                eta="30+ mins"
+                imgUri={require('./images/restaurant-2.jpg')}
+                action={() => navigation.navigate('Menu', {
+                  sections: [
+                    {
+                      'title': 'Gelato',
+                      'contents':[
+                        {'title':'Vanilla'},
+                      ],
+                    }
+                  ]
+                })}
               />
             </Section>
           </TableView>
@@ -64,10 +92,22 @@ export default function App() {
     );
   }
   
-  function MenuScreen() {
+  function DetailsScreen({ route }) {
+    const { sections } = route.params;
+
     return (
-      <View>
-        <Text>Welcome to the Menu Screen!</Text>
+      <View style={styles.body}>
+        <ScrollView>
+          <TableView>
+            {sections.map((section, index) => (
+              <Section key={index} header={section.title}>
+                {section.contents.map((item, idx) => (
+                  <Cell key={idx} title={item.title} />
+                ))}
+              </Section>
+            ))}
+          </TableView>
+        </ScrollView>
       </View>
     );
   }
@@ -76,7 +116,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Restaurant" component={HomeScreen} />
-        <Stack.Screen name="Menu" component={MenuScreen} />
+        <Stack.Screen name="Menu" component={DetailsScreen} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
@@ -86,7 +126,7 @@ export default function App() {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
   },
   cellContainer: {
     flex: 1,
@@ -94,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5e5e5',
     padding: 15,
     borderRadius: 10,
-    gap: 10,
+    marginBottom: 20,
   },
   contentWrapper: {
     flex: 1,
@@ -116,13 +156,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 100,
-    overflowWordWrap: 'break-word'
   },
   etaText: {
     fontSize: 16,
     color: '#000',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  textWrapper: {
+    padding: 10,
   },
   restaurantTitle: {
     fontSize: 18,
