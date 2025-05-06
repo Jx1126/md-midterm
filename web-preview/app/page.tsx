@@ -79,6 +79,12 @@ export default function Home() {
           </SpotlightCard>
         </Link>
 
+        <Link href="/food-app">
+          <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <span className="text-xl px-8">Week 7 - Food App</span>
+          </SpotlightCard>
+        </Link>
+
       </div>
     </main>
   );
