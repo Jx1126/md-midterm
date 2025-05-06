@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Dimensions, SafeAreaView, TouchableOpacity } fr
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { AutoSizeText, ResizeTextMode } from 'react-native-auto-size-text';
+import * as ScreenOrientation from "expo-screen-orientation";
 
 export default function App() {
   const [answerValue, setAnswerValue] = useState(0);
@@ -142,6 +143,8 @@ export default function App() {
       }
     }
   };
+
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
 
   return (
     <SafeAreaView style={styles.body}>
