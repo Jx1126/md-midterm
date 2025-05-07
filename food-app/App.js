@@ -152,32 +152,29 @@ function HomeScreen({navigation}) {
   );
 }
 
-const QuantityCell = ({ item, onAdd }) => {
+const QuantityCell = ({ item, onQuantityUpdate }) => {
   const [quantity, setQuantity] = useState(0);
 
-  const increaseQuantity = () => setQuantity(prev => prev + 1);
-  const decreaseQuantity = () => setQuantity(prev => Math.max(prev - 1, 0));
+  const increaseQuantity = () => {
+    const updatedQuantity = quantity + 1;
+    setQuantity(updatedQuantity);
+    onQuantityUpdate(item.title, updatedQuantity);
+  }
 
-  const addQuantityToCart = () => {
-    if (quantity > 0) {
-      onAdd(item, quantity);
-      setQuantity(0);
-    }
+  const decreaseQuantity = () => {  
+    const updatedQuantity = Math.max(quantity - 1, 0);
+    setQuantity(updatedQuantity);
+    onQuantityUpdate(item.title, updatedQuantity);
   }
 
   return (
     <View style={styles.quantityMenuContainer}>
-      <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-        <Text style={styles.quantityButtonText}>−</Text>
+      <TouchableOpacity onPress={decreaseQuantity} style={styles.ctaButton}>
+        <Text style={styles.ctaButtonText}>−</Text>
       </TouchableOpacity>
       <Text style={styles.quantityText}>{quantity}</Text>
-      <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-        <Text style={styles.quantityButtonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={addQuantityToCart} style={styles.addToCartButton}>
-        <Text style={styles.addToCartButtonText}>
-          Add
-        </Text>
+      <TouchableOpacity onPress={increaseQuantity} style={styles.ctaButton}>
+        <Text style={styles.ctaButtonText}>+</Text>
       </TouchableOpacity>
     </View>
   )
@@ -185,19 +182,21 @@ const QuantityCell = ({ item, onAdd }) => {
 
 function DetailsScreen({ route }) {
   const { sections } = route.params;
+  const [selectedFlavour, setSelectedFlavour] = useState(null);
+  const [selectedTopping, setSelectedTopping] = useState({});
 
   return (
     <View style={styles.body}>
       <ScrollView>
-        <TableView>
-          {sections.map((section, index) => (
+        {!selectedFlavour ? (
+          <TableView>
             <Section
-              key={index}
+              key={sections[0].index}
               headerComponent= {
-                <Text style={styles.detailSectionHeader}>{section.title}</Text>
+                <Text style={styles.detailSectionHeader}>{sections[0].title}</Text>
               }
             >
-              {section.contents.map((item, idx) => (
+              {sections[0].contents.map((item, idx) => (
                 <Cell
                   key={idx}
                   title={item.title}
@@ -213,17 +212,83 @@ function DetailsScreen({ route }) {
                           {item.price}
                         </Text>
                       </View>
-                      <QuantityCell
-                        item={item}
-                        onAdd={(item, quantity) => alert(`${quantity} ${item.title} has been added to cart`)}
-                      />
+                      <TouchableOpacity
+                        onPress={() => {setSelectedFlavour(item);}}
+                        style={styles.ctaSelectButton}
+                      >
+                        <Text style={styles.ctaSelectButtonText}>
+                          Select
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   }
                 />
               ))}
             </Section>
-          ))}
-        </TableView>
+          </TableView>
+        ) : (
+          <View>
+            <TableView>
+              <Section
+                key={sections[1].index}
+                headerComponent= {
+                  <Text style={styles.detailSectionHeader}>{sections[1].title}</Text>
+                }
+              >
+                {sections[1].contents.map((item, idx) => (
+                  <Cell
+                    key={idx}
+                    title={item.title}
+                    detail={item.price || ''}
+                    cellStyle="RightDetail"
+                    cellContentView= {
+                      <View style={styles.detailCellContainer}>
+                        <View>
+                          <Text style={styles.detailCellTitle}>
+                            {item.title}
+                          </Text>
+                          <Text style={styles.detailCellPrice}>
+                            {item.price}
+                          </Text>
+                        </View>
+                        <QuantityCell
+                          item={item}
+                          onQuantityUpdate={(title, quantity) => {
+                            setSelectedTopping((prev) => ({
+                              ...prev,
+                              [title]: quantity,
+                            }));
+                          }}
+                        />
+                      </View>
+                    }
+                  />
+                ))}
+              </Section>
+          </TableView>
+
+          <TouchableOpacity
+            style={styles.addToCartButton}
+            onPress={() => {
+              const toppings = Object.entries(selectedTopping)
+                .filter(([_, quantity]) => quantity > 0)
+                .map(([title, quantity]) => `x${quantity} ${title}`)
+                .join(', ');
+
+              alert(
+                `Added ${selectedFlavour.title} with ${toppings} to cart!`
+              )
+              
+              setSelectedFlavour(false);
+              setSelectedTopping({});
+            }}
+          >
+            <Text style={styles.ctaSelectButtonText}>
+                Add to Cart
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       </ScrollView>
     </View>
   );
@@ -315,7 +380,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  quantityButton: {
+  ctaButton: {
     backgroundColor: '#f1f1f1',
     width: 45,
     height: 45,
@@ -325,7 +390,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  quantityButtonText: {
+  ctaButtonText: {
     fontSize: 20,
     fontFamily: 'Poppins_400Regular',
   },
@@ -342,18 +407,35 @@ const styles = StyleSheet.create({
   },
   addToCartButton: {
     backgroundColor: '#24a0ed',
-    width: 'fit-content',
-    height: 45,
+    width: 'full',
+    height: 50,
     paddingVertical: 3,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
+    marginHorizontal: 15,
   },
   addToCartButtonText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
+  },
+  ctaSelectButton: {
+    backgroundColor: '#24a0ed',
+    width: 'fit-content',
+    height: 'fit-content',
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ctaSelectButtonText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    color: '#fff',
+    padding: 5,
+    textAlign: 'center',
   },
 });
