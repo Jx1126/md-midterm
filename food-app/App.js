@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
@@ -151,6 +152,37 @@ function HomeScreen({navigation}) {
   );
 }
 
+const QuantityCell = ({ item, onAdd }) => {
+  const [quantity, setQuantity] = useState(0);
+
+  const increaseQuantity = () => setQuantity(prev => prev + 1);
+  const decreaseQuantity = () => setQuantity(prev => Math.max(prev - 1, 0));
+
+  const addQuantityToCart = () => {
+    if (quantity > 0) {
+      onAdd(item, quantity);
+      setQuantity(0);
+    }
+  }
+
+  return (
+    <View style={styles.quantityMenuContainer}>
+      <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
+        <Text style={styles.quantityButtonText}>−</Text>
+      </TouchableOpacity>
+      <Text style={styles.quantityText}>{quantity}</Text>
+      <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
+        <Text style={styles.quantityButtonText}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={addQuantityToCart} style={styles.addToCartButton}>
+        <Text style={styles.addToCartButtonText}>
+          Add
+        </Text>
+      </TouchableOpacity>
+    </View>
+  )
+}
+
 function DetailsScreen({ route }) {
   const { sections } = route.params;
 
@@ -162,7 +194,7 @@ function DetailsScreen({ route }) {
             <Section
               key={index}
               headerComponent= {
-                <Text style={styles.detailSectionHader}>{section.title}</Text>
+                <Text style={styles.detailSectionHeader}>{section.title}</Text>
               }
             >
               {section.contents.map((item, idx) => (
@@ -173,12 +205,18 @@ function DetailsScreen({ route }) {
                   cellStyle="RightDetail"
                   cellContentView= {
                     <View style={styles.detailCellContainer}>
-                      <Text style={styles.detailCellTitle}>
-                        {item.title}
-                      </Text>
-                      <Text style={styles.detailCellPrice}>
-                        {item.price}
-                      </Text>
+                      <View>
+                        <Text style={styles.detailCellTitle}>
+                          {item.title}
+                        </Text>
+                        <Text style={styles.detailCellPrice}>
+                          {item.price}
+                        </Text>
+                      </View>
+                      <QuantityCell
+                        item={item}
+                        onAdd={(item, quantity) => alert(`${quantity} ${item.title} has been added to cart`)}
+                      />
                     </View>
                   }
                 />
@@ -244,7 +282,7 @@ const styles = StyleSheet.create({
     color: '#525252',
     fontFamily: 'Poppins_400Regular',
   },
-  detailSectionHader: {
+  detailSectionHeader: {
     fontSize: 17,
     fontFamily: 'Poppins_600SemiBold',
     paddingHorizontal: 15,
@@ -258,6 +296,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    paddingRight: 0,
     gap: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#E1E1E140',
@@ -270,5 +309,51 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     opacity: 0.4,
+  },
+  quantityMenuContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  quantityButton: {
+    backgroundColor: '#f1f1f1',
+    width: 45,
+    height: 45,
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  quantityButtonText: {
+    fontSize: 20,
+    fontFamily: 'Poppins_400Regular',
+  },
+  quantityText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    marginHorizontal: 20,
+  },
+  detailCtaContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    justifyContent: 'center',
+  },
+  addToCartButton: {
+    backgroundColor: '#24a0ed',
+    width: 'fit-content',
+    height: 45,
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  addToCartButtonText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    color: '#fff',
   },
 });
