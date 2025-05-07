@@ -99,7 +99,7 @@ function HomeScreen({navigation}) {
                       ],
                   },
                   {
-                    'title': 'Toppings',
+                    'title': 'Pick Your Toppings',
                     'contents':[
                       {'title':'Chocolate Sauce', 'price': '£0.50'},
                       {'title':'Caramel Sauce', 'price': '£0.50'},
@@ -132,7 +132,7 @@ function HomeScreen({navigation}) {
                     ],
                   },
                   {
-                    'title': 'Toppings',
+                    'title': 'Pick Your Toppings',
                     'contents':[
                       {'title':'Maple Syrup', 'price': '£0.50'},
                       {'title':'Chocolate Sauce', 'price': '£0.50'},
@@ -228,6 +228,10 @@ function DetailsScreen({ route }) {
           </TableView>
         ) : (
           <View>
+            <Text style={styles.selectedFlavourText}>
+              Selected Flavour: {selectedFlavour.title}
+            </Text>
+
             <TableView>
               <Section
                 key={sections[1].index}
@@ -437,5 +441,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     padding: 5,
     textAlign: 'center',
+  },
+  selectedFlavourText: {
+    fontSize: 18,
+    fontFamily: 'Poppins_600SemiBold',
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#00000080',
   },
 });
