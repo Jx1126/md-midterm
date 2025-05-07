@@ -77,11 +77,27 @@ function HomeScreen({navigation}) {
               action={() => navigation.navigate('Menu', {
                 sections: [
                   {
-                    'title': 'Gelato',
+                    'title': 'Gelato Flavours',
                     'contents':[
-                      {'title':'Vanilla'},
+                      {'title': 'Vanilla', 'price': '£3.50'},
+                      {'title': 'Chocolate', 'price': '£3.50'},
+                      {'title': 'Strawberry', 'price': '£3.50'},
+                      {'title': 'Pistachio', 'price': '£4.00'},
+                      {'title': 'Biscoff', 'price': '£4.00'},
+                      {'title': 'Tiramisu', 'price': '£4.00'},
+                      ],
+                  },
+                  {
+                    'title': 'Toppings',
+                    'contents':[
+                      {'title':'Chocolate Sauce', 'price': '£0.50'},
+                      {'title':'Caramel Sauce', 'price': '£0.50'},
+                      {'title':'Sprinkles', 'price': '£0.50'},
+                      {'title':'Whipped Cream', 'price': '£0.50'},
+                      {'title':'Marshmallows', 'price': '£0.50'},
+                      {'title':'Mixed Fruits', 'price': '£1.00'},
                     ],
-                  }
+                  },
                 ]
               })}
             />
@@ -94,9 +110,25 @@ function HomeScreen({navigation}) {
               action={() => navigation.navigate('Menu', {
                 sections: [
                   {
-                    'title': 'Gelato',
+                    'title': 'Pancake Flavours',
                     'contents':[
-                      {'title':'Vanilla'},
+                      {'title': 'Classic', 'price': '£6.50'},
+                      {'title': 'Chocolate', 'price': '£7.00'},
+                      {'title': 'Strawberry', 'price': '£7.00'},
+                      {'title': 'Blueberry', 'price': '£7.00'},
+                      {'title': 'Banana', 'price': '£7.00'},                      
+                      {'title': 'Nutella', 'price': '£8.00'},
+                    ],
+                  },
+                  {
+                    'title': 'Toppings',
+                    'contents':[
+                      {'title':'Maple Syrup', 'price': '£0.50'},
+                      {'title':'Chocolate Sauce', 'price': '£0.50'},
+                      {'title':'Honey', 'price': '£0.80'},
+                      {'title':'Sliced Butter', 'price': '£1.00'},
+                      {'title':'Vanilla Ice Cream', 'price': '£1.50'},
+                      {'title':'Mixed Fruits', 'price': '£2.00'},
                     ],
                   }
                 ]
@@ -119,7 +151,12 @@ function DetailsScreen({ route }) {
           {sections.map((section, index) => (
             <Section key={index} header={section.title}>
               {section.contents.map((item, idx) => (
-                <Cell key={idx} title={item.title} />
+                <Cell
+                  key={idx}
+                  title={item.title}
+                  detail={item.price || ''}
+                  cellStyle="RightDetail"
+                  />
               ))}
             </Section>
           ))}
