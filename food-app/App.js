@@ -8,118 +8,124 @@ export default function App() {
 
   const Stack = createStackNavigator();
 
-  const HomeScreenCell = (props) => {
-    return (
-      <Cell
-        height={290}
-        backgroundColor={'white'}
-        highlightColor="#cccccc"
-        onPress={props.action}
-        {...props}
-        cellContentView={
-          <View style={styles.cellContainer}>
-            <View style={styles.contentWrapper}>
-              <Image 
-                source={props.imgUri}
-                style={styles.restaurantImage}
-                resizeMode='cover'
-              />
-
-              <View style={styles.etaContainer}>
-                <Text style={styles.etaText}>
-                  {props.eta}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.textWrapper}>
-              <Text style={styles.restaurantTitle}>
-                {props.title}
-              </Text>
-              <Text style={styles.restaurantSubtitle}>
-                {props.tagline}
-              </Text>
-            </View>
-          </View>
-        }
-      />
-    );
-  }
-
-  function HomeScreen({navigation}) {
-    return (
-      <View style={styles.body}>
-        <ScrollView>
-          <TableView>
-            <Section header="" hideSeparator={true} separatorTintColor="#ccc">
-              <HomeScreenCell
-                title="Joe's Gelato"
-                tagline="Dessert, Ice cream, £££"
-                eta="10 mins"
-                imgUri={require('./images/restaurant-1.jpg')}
-                action={() => navigation.navigate('Menu', {
-                  sections: [
-                    {
-                      'title': 'Gelato',
-                      'contents':[
-                        {'title':'Vanilla'},
-                      ],
-                    }
-                  ]
-                })}
-              />
-
-              <HomeScreenCell
-                title="Joe's Pancakes"
-                tagline="Dessert, Ice cream, £££"
-                eta="30+ mins"
-                imgUri={require('./images/restaurant-2.jpg')}
-                action={() => navigation.navigate('Menu', {
-                  sections: [
-                    {
-                      'title': 'Gelato',
-                      'contents':[
-                        {'title':'Vanilla'},
-                      ],
-                    }
-                  ]
-                })}
-              />
-            </Section>
-          </TableView>
-        </ScrollView>
-      </View>
-    );
-  }
-  
-  function DetailsScreen({ route }) {
-    const { sections } = route.params;
-
-    return (
-      <View style={styles.body}>
-        <ScrollView>
-          <TableView>
-            {sections.map((section, index) => (
-              <Section key={index} header={section.title}>
-                {section.contents.map((item, idx) => (
-                  <Cell key={idx} title={item.title} />
-                ))}
-              </Section>
-            ))}
-          </TableView>
-        </ScrollView>
-      </View>
-    );
-  }
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Restaurant" component={HomeScreen} />
-        <Stack.Screen name="Menu" component={DetailsScreen} />
+        <Stack.Screen
+          name="Restaurant"
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={DetailsScreen}
+        />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
+  );
+};
+
+const HomeScreenCell = (props) => {
+  return (
+    <Cell
+      height={290}
+      backgroundColor={'white'}
+      highlightColor="#cccccc"
+      onPress={props.action}
+      {...props}
+      cellContentView={
+        <View style={styles.cellContainer}>
+          <View style={styles.contentWrapper}>
+            <Image 
+              source={props.imgUri}
+              style={styles.restaurantImage}
+              resizeMode='cover'
+            />
+
+            <View style={styles.etaContainer}>
+              <Text style={styles.etaText}>
+                {props.eta}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.textWrapper}>
+            <Text style={styles.restaurantTitle}>
+              {props.title}
+            </Text>
+            <Text style={styles.restaurantSubtitle}>
+              {props.tagline}
+            </Text>
+          </View>
+        </View>
+      }
+    />
+  );
+}
+
+function HomeScreen({navigation}) {
+  return (
+    <View style={styles.body}>
+      <ScrollView>
+        <TableView>
+          <Section header="" hideSeparator={true} separatorTintColor="#ccc">
+            <HomeScreenCell
+              title="Joe's Gelato"
+              tagline="Dessert, Ice cream, £££"
+              eta="10 mins"
+              imgUri={require('./images/restaurant-1.jpg')}
+              action={() => navigation.navigate('Menu', {
+                sections: [
+                  {
+                    'title': 'Gelato',
+                    'contents':[
+                      {'title':'Vanilla'},
+                    ],
+                  }
+                ]
+              })}
+            />
+
+            <HomeScreenCell
+              title="Joe's Pancakes"
+              tagline="Dessert, Ice cream, £££"
+              eta="30+ mins"
+              imgUri={require('./images/restaurant-2.jpg')}
+              action={() => navigation.navigate('Menu', {
+                sections: [
+                  {
+                    'title': 'Gelato',
+                    'contents':[
+                      {'title':'Vanilla'},
+                    ],
+                  }
+                ]
+              })}
+            />
+          </Section>
+        </TableView>
+      </ScrollView>
+    </View>
+  );
+}
+
+function DetailsScreen({ route }) {
+  const { sections } = route.params;
+
+  return (
+    <View style={styles.body}>
+      <ScrollView>
+        <TableView>
+          {sections.map((section, index) => (
+            <Section key={index} header={section.title}>
+              {section.contents.map((item, idx) => (
+                <Cell key={idx} title={item.title} />
+              ))}
+            </Section>
+          ))}
+        </TableView>
+      </ScrollView>
+    </View>
   );
 }
 
