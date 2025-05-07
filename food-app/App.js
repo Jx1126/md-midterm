@@ -3,10 +3,20 @@ import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
+import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
 
 export default function App() {
-
   const Stack = createStackNavigator();
+
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+  
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <NavigationContainer>
@@ -149,14 +159,29 @@ function DetailsScreen({ route }) {
       <ScrollView>
         <TableView>
           {sections.map((section, index) => (
-            <Section key={index} header={section.title}>
+            <Section
+              key={index}
+              headerComponent= {
+                <Text style={styles.detailSectionHader}>{section.title}</Text>
+              }
+            >
               {section.contents.map((item, idx) => (
                 <Cell
                   key={idx}
                   title={item.title}
                   detail={item.price || ''}
                   cellStyle="RightDetail"
-                  />
+                  cellContentView= {
+                    <View style={styles.detailCellContainer}>
+                      <Text style={styles.detailCellTitle}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.detailCellPrice}>
+                        {item.price}
+                      </Text>
+                    </View>
+                  }
+                />
               ))}
             </Section>
           ))}
@@ -203,8 +228,8 @@ const styles = StyleSheet.create({
   etaText: {
     fontSize: 16,
     color: '#000',
-    fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Poppins_600SemiBold',
   },
   textWrapper: {
     padding: 10,
@@ -212,10 +237,38 @@ const styles = StyleSheet.create({
   restaurantTitle: {
     fontSize: 18,
     color: '#000',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_700Bold',
   },
   restaurantSubtitle: {
     fontSize: 14,
     color: '#525252',
+    fontFamily: 'Poppins_400Regular',
+  },
+  detailSectionHader: {
+    fontSize: 17,
+    fontFamily: 'Poppins_600SemiBold',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    opacity: 0.4,
+  },
+  detailCellContainer: {
+    height: '100%',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    gap: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E1E1E140',
+  },
+  detailCellTitle: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+  },
+  detailCellPrice: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    opacity: 0.4,
   },
 });
