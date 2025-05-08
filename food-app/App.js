@@ -172,13 +172,13 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
   const increaseQuantity = () => {
     const updatedQuantity = quantity + 1;
     setQuantity(updatedQuantity);
-    onQuantityUpdate(item.title, updatedQuantity);
+    onQuantityUpdate(item.title, updatedQuantity, item.price);
   }
 
   const decreaseQuantity = () => {  
     const updatedQuantity = Math.max(quantity - 1, 0);
     setQuantity(updatedQuantity);
-    onQuantityUpdate(item.title, updatedQuantity);
+    onQuantityUpdate(item.title, updatedQuantity, item.price);
   }
 
   return (
@@ -195,9 +195,11 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
 }
 
 function DetailsScreen({ route }) {
-  const { sections } = route.params;
+  const { restaurantName, sections } = route.params;
   const [selectedFlavour, setSelectedFlavour] = useState(null);
   const [selectedTopping, setSelectedTopping] = useState({});
+  const [toppingPrices, setToppingPrices] = useState({});
+  const { addToCart } = useContext(CartContext);
 
   return (
     <View style={styles.body}>
@@ -288,17 +290,27 @@ function DetailsScreen({ route }) {
           <TouchableOpacity
             style={styles.addToCartButton}
             onPress={() => {
-              const toppings = Object.entries(selectedTopping)
+              const selectedToppingsArray = Object.entries(selectedTopping)
                 .filter(([_, quantity]) => quantity > 0)
-                .map(([title, quantity]) => `x${quantity} ${title}`)
-                .join(', ');
+                .map(([title, quantity]) => ({
+                  title,
+                  quantity,
+                  price: toppingPrices[title] || 0,
+                }));
+
+              addToCart(
+                restaurantName,
+                selectedFlavour,
+                selectedToppingsArray
+              )
 
               alert(
-                `Added ${selectedFlavour.title} with ${toppings} to cart!`
+                'Added to cart!',
               )
               
-              setSelectedFlavour(false);
+              setSelectedFlavour(null);
               setSelectedTopping({});
+              setToppingPrices({});
             }}
           >
             <Text style={styles.ctaSelectButtonText}>
