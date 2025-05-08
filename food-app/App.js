@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useState, useContext, createContext } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -20,29 +20,31 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Restaurant"
-          component={HomeScreen}
-          options={({ navigation }) => ({
-            headerRight: () => <CartIcon navigation={navigation} />,
-          })}
-        />
-        <Stack.Screen
-          name="Menu"
-          component={DetailsScreen}
-          options={({ navigation }) => ({
-            headerRight: () => <CartIcon navigation={navigation} />,
-          })}
-        />
-        <Stack.Screen
-          name="Cart"
-          component={CartScreen}
-        />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Restaurant"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              headerRight: () => <CartIcon navigation={navigation} />,
+            })}
+          />
+          <Stack.Screen
+            name="Menu"
+            component={DetailsScreen}
+            options={({ navigation }) => ({
+              headerRight: () => <CartIcon navigation={navigation} />,
+            })}
+          />
+          <Stack.Screen
+            name="Cart"
+            component={CartScreen}
+          />
+        </Stack.Navigator>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </CartProvider>
   );
 };
 
@@ -335,6 +337,38 @@ function CartScreen() {
     </View>
   )
 }
+
+const CartContext = createContext();
+
+const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (restaurantName, flavour, toppings) => {
+    const newItem = {
+      id: Date.now().toString(),
+      restaurantName,
+      flavour,
+      toppings,
+    };
+    setCartItems((prevItems) => [...prevItems, newItem]);
+  };
+
+  const removeFromCart = (itemId) => {
+    setCartItems((prevItems) => prevItems.filter((cartItem) => cartItem.id !== itemId));
+
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+  }
+
+  return (
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+      {children}
+    </CartContext.Provider>
+  )
+
+};
 
 const styles = StyleSheet.create({
   body: {
