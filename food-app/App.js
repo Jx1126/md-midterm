@@ -273,10 +273,14 @@ function DetailsScreen({ route }) {
                         </View>
                         <QuantityCell
                           item={item}
-                          onQuantityUpdate={(title, quantity) => {
+                          onQuantityUpdate={(title, quantity, price) => {
                             setSelectedTopping((prev) => ({
                               ...prev,
                               [title]: quantity,
+                            }));
+                            setToppingPrices((prev) => ({
+                              ...prev,
+                              [title]: price,
                             }));
                           }}
                         />
@@ -353,16 +357,6 @@ function CartIcon({ navigation }) {
   );
 };
 
-function CartScreen() {
-  return (
-    <View style={styles.body}>
-      <Text style={styles.detailSectionHeader}>
-        Your cart is currently empty. Add some items to it from the menu.
-      </Text>
-    </View>
-  )
-}
-
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
@@ -392,8 +386,79 @@ const CartProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   )
-
 };
+
+function CartScreen() {
+  const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+
+  const groupedItems = cartItems.reduce((groups, item) => {
+    if (!groups[item.restaurantName]) {
+      groups[item.restaurantName] = [];
+    }
+    groups[item.restaurantName].push(item);
+    return groups;
+  }, {});
+
+  const cartCheckout = () => {
+    alert('Checkout successful! Hope to see you again soon!');
+    clearCart();
+  }
+
+  if (cartItems.length == 0) {
+    return (
+      <View style={[styles.body, styles.emptyCartBody]}>
+        <Text style={styles.emptyCartText}>
+          Your cart is currently empty. Add some items to it from the menu.
+        </Text>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.body}>
+      <ScrollView>
+        {Object.entries(groupedItems).map(([restaurantName, items], index) => (
+          <View key={index}>
+            <Text>{restaurantName}</Text>
+
+            {items.map((item, idx) => (
+              <View key={idx}>
+                <View>
+                  <Text>{item.flavour.title}</Text>
+                  <Text>{item.flavour.price}</Text>
+                </View>
+
+                {item.toppings && item.toppings.length > 0 && (
+                  <View>
+                    {item.toppings.map((topping, toppingIdx) => (
+                      <Text key={toppingIdx}>
+                        - {topping.quantity}x {topping.title} ({topping.price})
+                      </Text>
+                    ))}
+                  </View>
+                )}
+
+                <TouchableOpacity
+                  onPress={() => removeFromCart(item.id)}
+                >
+                  <Text>Remove</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        ))}
+        <TouchableOpacity
+          style={styles.addToCartButton}
+          onPress={cartCheckout}
+        >
+          <Text style={styles.addToCartButtonText}>
+            Checkout
+          </Text>
+        </TouchableOpacity>          
+      </ScrollView>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   body: {
@@ -586,4 +651,15 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     textAlign: 'center',
   },
+  emptyCartBody: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 18,
+    fontFamily: 'Poppins_400Regular',
+    textAlign: 'center',
+    color: '#00000080',
+    paddingHorizontal: 20,
+  }
 });
