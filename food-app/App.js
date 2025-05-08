@@ -325,6 +325,8 @@ function DetailsScreen({ route }) {
 }
 
 function CartIcon({ navigation }) {
+  const { cartItems } = useContext(CartContext);
+
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('Cart')}
@@ -338,6 +340,15 @@ function CartIcon({ navigation }) {
       <Text style={styles.cartIconText}>
         Cart
       </Text>
+
+      {cartItems.length > 0 && (
+        <View style={styles.cartItemCountBadge}>
+          <Text style={styles.cartItemCountText}>
+            {cartItems.length}
+          </Text>
+        </View>
+      )}
+
     </TouchableOpacity>        
   );
 };
@@ -454,7 +465,7 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     gap: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#E1E1E140',
+    borderBottomColor: '#e1e1e140',
   },
   detailCellTitle: {
     fontSize: 15,
@@ -482,6 +493,7 @@ const styles = StyleSheet.create({
   },
   ctaButtonText: {
     fontSize: 20,
+    paddingTop: 5,
     fontFamily: 'Poppins_400Regular',
   },
   quantityText: {
@@ -554,6 +566,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Poppins_600SemiBold',
     color: '#979797',
+    textAlign: 'center',
+  },
+  cartItemCountBadge: {
+    position: 'absolute',
+    top: -5,
+    right: -5,
+    backgroundColor: '#24a0ed',
+    width: 25,
+    height: 25,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartItemCountText: {
+    fontSize: 12,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#fff',
+    paddingTop: 3,
     textAlign: 'center',
   },
 });
