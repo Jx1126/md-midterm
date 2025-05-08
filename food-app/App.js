@@ -25,10 +25,20 @@ export default function App() {
         <Stack.Screen
           name="Restaurant"
           component={HomeScreen}
+          options={({ navigation }) => ({
+            headerRight: () => <CartIcon navigation={navigation} />,
+          })}
         />
         <Stack.Screen
           name="Menu"
           component={DetailsScreen}
+          options={({ navigation }) => ({
+            headerRight: () => <CartIcon navigation={navigation} />,
+          })}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
         />
       </Stack.Navigator>
       <StatusBar style="auto" />
@@ -298,6 +308,34 @@ function DetailsScreen({ route }) {
   );
 }
 
+function CartIcon({ navigation }) {
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Cart')}
+      style={styles.cartIconButton}
+    >
+      <Image
+        source={require('./images/cart-icon.png')}
+        style={styles.cartIconImage}
+        resizeMode='contain'
+      />
+      <Text style={styles.cartIconText}>
+        Cart
+      </Text>
+    </TouchableOpacity>        
+  );
+};
+
+function CartScreen() {
+  return (
+    <View style={styles.body}>
+      <Text style={styles.detailSectionHeader}>
+        Your cart is currently empty. Add some items to it from the menu.
+      </Text>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   body: {
     flex: 1,
@@ -448,5 +486,26 @@ const styles = StyleSheet.create({
     marginTop: 20,
     textAlign: 'center',
     color: '#00000080',
+  },
+  cartIconButton: {
+    flexDirection: 'row',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    marginRight: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 10,
+  },
+  cartIconImage: {
+    width: 28,
+    height: 28,
+  },
+  cartIconText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#979797',
+    textAlign: 'center',
   },
 });
