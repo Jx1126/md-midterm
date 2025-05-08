@@ -423,35 +423,55 @@ function CartScreen() {
           <View key={index} style={styles.cartContainer}>
             <Text style={styles.cartRestaurantName}>{restaurantName}</Text>
 
-            {items.map((item, idx) => (
-              <View key={idx} style={styles.cartItemCard}>
-                <View style={styles.flavourContainer}>
-                  <Text style={[styles.flavourContainerText, styles.flavourContainerTitleText]}>{item.flavour.title}</Text>
-                  <Text style={styles.flavourContainerText}>{item.flavour.price}</Text>
-                </View>
+            {items.map((item, idx) => {
+              const flavourPrice = parseFloat(item.flavour.price.replace('£', ''));
+              let toppingsTotal = 0;
+            
+              if (item.toppings && item.toppings.length > 0) {
+                item.toppings.forEach((topping) => {
+                  const price = parseFloat(topping.price.replace('£', ''));
+                  toppingsTotal += price * topping.quantity;
+                });
+              }
+            
+              const subtotal = (flavourPrice + toppingsTotal).toFixed(2);
 
-                <View style={styles.toppingsContainer}>
-                  {item.toppings && item.toppings.length > 0 ? (
-                    item.toppings.map((topping, toppingIdx) => (
-                      <Text key={toppingIdx} style={styles.toppingsContainerText}>
-                        - {topping.quantity}x {topping.title} ({topping.price})
+              return (
+                <View key={idx} style={styles.cartItemCard}>
+                  <View style={styles.flavourContainer}>
+                    <Text style={[styles.flavourContainerText, styles.flavourContainerTitleText]}>{item.flavour.title}</Text>
+                    <Text style={styles.flavourContainerText}>{item.flavour.price}</Text>
+                    
+                  </View>
+
+                  <View style={styles.toppingsContainer}>
+                    {item.toppings && item.toppings.length > 0 ? (
+                      item.toppings.map((topping, toppingIdx) => (
+                        <Text key={toppingIdx} style={styles.toppingsContainerText}>
+                          - {topping.quantity}x {topping.title} ({topping.price})
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.toppingsContainerText}>
+                        No toppings selected
                       </Text>
-                    ))
-                  ) : (
-                    <Text style={styles.toppingsContainerText}>
-                      No toppings selected
-                    </Text>
-                  )}
-                </View>
+                    )}
+                  </View>
 
-                <TouchableOpacity
-                  onPress={() => removeFromCart(item.id)}
-                  style={styles.removeButton}
-                >
-                  <Text style={styles.removeButtonText}>Remove</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
+                  <View style={styles.cartSubtotalContainer}>
+                    <Text style={styles.cartSubtotalText}>
+                      Subtotal: £{subtotal}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => removeFromCart(item.id)}
+                      style={styles.removeButton}
+                    >
+                      <Text style={styles.removeButtonText}>Remove</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            })}
           </View>
         ))}
 
@@ -776,6 +796,18 @@ const styles = StyleSheet.create({
   totalPriceText: {
     fontSize: 20,
     fontFamily: 'Poppins_700Bold',
+    color: '#000',
+    marginTop: 5,
+  },
+  cartSubtotalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: 10,
+  },
+  cartSubtotalText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
     color: '#000',
     marginTop: 5,
   },
