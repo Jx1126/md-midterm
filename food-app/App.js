@@ -98,6 +98,7 @@ function HomeScreen({navigation}) {
               eta="10 mins"
               imgUri={require('./images/restaurant-1.jpg')}
               action={() => navigation.navigate('Menu', {
+                restaurantName: "Joe's Gelato",
                 sections: [
                   {
                     'title': 'Gelato Flavours',
@@ -131,6 +132,7 @@ function HomeScreen({navigation}) {
               eta="30+ mins"
               imgUri={require('./images/restaurant-2.jpg')}
               action={() => navigation.navigate('Menu', {
+                restaurantName: "Joe's Pancakes",
                 sections: [
                   {
                     'title': 'Pancake Flavours',
