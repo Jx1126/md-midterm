@@ -418,20 +418,20 @@ function CartScreen() {
     <View style={styles.body}>
       <ScrollView>
         {Object.entries(groupedItems).map(([restaurantName, items], index) => (
-          <View key={index}>
-            <Text>{restaurantName}</Text>
+          <View key={index} style={styles.cartContainer}>
+            <Text style={styles.cartRestaurantName}>{restaurantName}</Text>
 
             {items.map((item, idx) => (
-              <View key={idx}>
-                <View>
-                  <Text>{item.flavour.title}</Text>
-                  <Text>{item.flavour.price}</Text>
+              <View key={idx} style={styles.cartItemCard}>
+                <View style={styles.flavourContainer}>
+                  <Text style={[styles.flavourContainerText, styles.flavourContainerTitleText]}>{item.flavour.title}</Text>
+                  <Text style={styles.flavourContainerText}>{item.flavour.price}</Text>
                 </View>
 
                 {item.toppings && item.toppings.length > 0 && (
-                  <View>
+                  <View style={styles.toppingsContainer}>
                     {item.toppings.map((topping, toppingIdx) => (
-                      <Text key={toppingIdx}>
+                      <Text key={toppingIdx} style={styles.toppingsContainerText}>
                         - {topping.quantity}x {topping.title} ({topping.price})
                       </Text>
                     ))}
@@ -440,8 +440,9 @@ function CartScreen() {
 
                 <TouchableOpacity
                   onPress={() => removeFromCart(item.id)}
+                  style={styles.deleteButton}
                 >
-                  <Text>Remove</Text>
+                  <Text style={styles.deleteButtonText}>Remove</Text>
                 </TouchableOpacity>
               </View>
             ))}
@@ -661,5 +662,66 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#00000080',
     paddingHorizontal: 20,
-  }
+  },
+  cartContainer: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e1e1e140',
+  },
+  cartRestaurantName: {
+    fontSize: 20,
+    fontFamily: 'Poppins_700Bold',
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderColor: '#e1e1e180',
+  },
+  cartItemCard: {
+    backgroundColor: '#f1f1f1',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  flavourContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+    justifyContent: 'space-between',
+  },
+  flavourContainerText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+  },
+  flavourContainerTitleText: {
+    fontSize: 17,
+    fontFamily: 'Poppins_600SemiBold',
+  },
+  toppingsContainer: {
+    paddingLeft: 10,
+    paddingBottom: 10,
+  },
+  toppingsContainerText: {
+    fontSize: 14,
+    fontFamily: 'Poppins_400Regular',
+    opacity: 0.6,
+  },
+  deleteButton: {
+    backgroundColor: '#ff6b6b',
+    width: 'fit-content',
+    height: 'fit-content',
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    
+  },
+  deleteButtonText: {
+    fontSize: 14,
+    fontFamily: 'Poppins_400Regular',
+    color: '#fff',
+    padding: 5,
+    textAlign: 'center',
+  },
 });
