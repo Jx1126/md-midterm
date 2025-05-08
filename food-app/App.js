@@ -217,6 +217,7 @@ function DetailsScreen({ route }) {
                   key={idx}
                   title={item.title}
                   detail={item.price || ''}
+                  backgroundColor={'white'}
                   cellStyle="RightDetail"
                   cellContentView= {
                     <View style={styles.detailCellContainer}>
@@ -260,6 +261,7 @@ function DetailsScreen({ route }) {
                     key={idx}
                     title={item.title}
                     detail={item.price || ''}
+                    backgroundColor={'white'}
                     cellStyle="RightDetail"
                     cellContentView= {
                       <View style={styles.detailCellContainer}>
@@ -428,35 +430,58 @@ function CartScreen() {
                   <Text style={styles.flavourContainerText}>{item.flavour.price}</Text>
                 </View>
 
-                {item.toppings && item.toppings.length > 0 && (
-                  <View style={styles.toppingsContainer}>
-                    {item.toppings.map((topping, toppingIdx) => (
+                <View style={styles.toppingsContainer}>
+                  {item.toppings && item.toppings.length > 0 ? (
+                    item.toppings.map((topping, toppingIdx) => (
                       <Text key={toppingIdx} style={styles.toppingsContainerText}>
                         - {topping.quantity}x {topping.title} ({topping.price})
                       </Text>
-                    ))}
-                  </View>
-                )}
+                    ))
+                  ) : (
+                    <Text style={styles.toppingsContainerText}>
+                      No toppings selected
+                    </Text>
+                  )}
+                </View>
 
                 <TouchableOpacity
                   onPress={() => removeFromCart(item.id)}
-                  style={styles.deleteButton}
+                  style={styles.removeButton}
                 >
-                  <Text style={styles.deleteButtonText}>Remove</Text>
+                  <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
               </View>
             ))}
           </View>
         ))}
-        <TouchableOpacity
-          style={styles.addToCartButton}
-          onPress={cartCheckout}
-        >
-          <Text style={styles.addToCartButtonText}>
-            Checkout
-          </Text>
-        </TouchableOpacity>          
+
+
       </ScrollView>
+        <View style={styles.cartCheckoutContainer}>
+          <Text style={styles.totalPriceText}>
+            Total: £{cartItems.reduce((total, item) => {
+              const flavourPrice = parseFloat(item.flavour.price.replace('£', ''));
+              let totalPrice = flavourPrice;
+
+              if (item.toppings && item.toppings.length > 0) {
+                item.toppings.forEach((topping) => {
+                  const toppingPrice = parseFloat(topping.price.replace('£', ''));
+                  totalPrice += toppingPrice * topping.quantity;
+                });
+              }
+              return total + totalPrice;
+            }, 0).toFixed(2)}
+          </Text>
+
+          <TouchableOpacity
+            style={styles.checkoutButton}
+            onPress={cartCheckout}
+          >
+            <Text style={styles.checkoutButtonText}>
+              Checkout
+            </Text>
+          </TouchableOpacity>          
+        </View>
     </View>
   )
 }
@@ -705,7 +730,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     opacity: 0.6,
   },
-  deleteButton: {
+  removeButton: {
     backgroundColor: '#ff6b6b',
     width: 'fit-content',
     height: 'fit-content',
@@ -717,11 +742,41 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     
   },
-  deleteButtonText: {
+  removeButtonText: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
     padding: 5,
     textAlign: 'center',
+  },
+  cartCheckoutContainer: {
+    padding: 15,
+    borderTopWidth: 3,
+    borderTopColor: '#e1e1e1',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 10,
+  },
+  checkoutButton: {
+    backgroundColor: '#24a0ed',
+    height: 50,
+    paddingVertical: 3,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 15,
+  },
+  checkoutButtonText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#fff',
+  },
+  totalPriceText: {
+    fontSize: 20,
+    fontFamily: 'Poppins_700Bold',
+    color: '#000',
+    marginTop: 5,
   },
 });
