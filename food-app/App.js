@@ -226,7 +226,7 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
   )
 }
 
-function DetailsScreen({ route }) {
+function DetailsScreen({ route, navigation }) {
   const { restaurantName, sections } = route.params;
   const [selectedFlavour, setSelectedFlavour] = useState(null);
   const [selectedTopping, setSelectedTopping] = useState({});
@@ -348,9 +348,14 @@ function DetailsScreen({ route }) {
                 selectedToppingsArray
               )
 
-              alert(
-                'Added to cart!',
-              )
+              Alert.alert(
+                'Item Added to Cart',
+                'Proceed to checkout or continue browsing?',
+                [
+                  { text: 'Go to Cart', onPress: () => navigation.navigate('Cart') },
+                  { text: 'Keep Browsing', style: 'cancel' },
+                ]
+              );
               
               setSelectedFlavour(null);
               setSelectedTopping({});
@@ -455,16 +460,26 @@ function CartScreen({ navigation }) {
           {
             text: 'Proceed with Self-Pickup',
             onPress: () => {
-              alert('Checkout successful! Enjoy your meal!');
+              Alert.alert(
+                'Checkout Completed',
+                'Your order has been placed for pickup. See you soon!',
+                [{text: 'OK',}],
+              );
               clearCart();
+              navigation.navigate('Restaurant');
             },
           },
         ],
-        { cancelable: true }
       );
+    } else {
+      Alert.alert(
+        'Checkout Completed',
+        `Your order has been placed for delivery to ${deliveryAddress}.`,
+        [{text: 'OK',}],
+      );
+      clearCart();
+      navigation.navigate('Restaurant');
     }
-    alert('Checkout successful! Your order is on the way!');
-    clearCart();
   };
 
   if (cartItems.length == 0) {
