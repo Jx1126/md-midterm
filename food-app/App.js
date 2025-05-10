@@ -57,26 +57,26 @@ const HomeScreenCell = (props) => {
       onPress={props.action}
       {...props}
       cellContentView={
-        <View style={styles.cellContainer}>
-          <View style={styles.contentWrapper}>
+        <View style={styles.homeCard}>
+          <View style={styles.homeCardContent}>
             <Image 
               source={props.imgUri}
-              style={styles.restaurantImage}
+              style={styles.homeCardImage}
               resizeMode='cover'
             />
 
-            <View style={styles.etaContainer}>
-              <Text style={styles.etaText}>
+            <View style={styles.homeEtaBadge}>
+              <Text style={styles.homeEtaBadge}>
                 {props.eta}
               </Text>
             </View>
           </View>
 
-          <View style={styles.textWrapper}>
-            <Text style={styles.restaurantTitle}>
+          <View style={styles.homeCardTextWrapper}>
+            <Text style={styles.homeCardTitle}>
               {props.title}
             </Text>
-            <Text style={styles.restaurantSubtitle}>
+            <Text style={styles.homeCardSubtitle}>
               {props.tagline}
             </Text>
           </View>
@@ -182,13 +182,13 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
   }
 
   return (
-    <View style={styles.quantityMenuContainer}>
-      <TouchableOpacity onPress={decreaseQuantity} style={styles.ctaButton}>
-        <Text style={styles.ctaButtonText}>−</Text>
+    <View style={styles.detailQuantityControl}>
+      <TouchableOpacity onPress={decreaseQuantity} style={styles.detailQuantityButton}>
+        <Text style={styles.detailQuantityButtonText}>−</Text>
       </TouchableOpacity>
-      <Text style={styles.quantityText}>{quantity}</Text>
-      <TouchableOpacity onPress={increaseQuantity} style={styles.ctaButton}>
-        <Text style={styles.ctaButtonText}>+</Text>
+      <Text style={styles.detailQuantityText}>{quantity}</Text>
+      <TouchableOpacity onPress={increaseQuantity} style={styles.detailQuantityButton}>
+        <Text style={styles.detailQuantityButtonText}>+</Text>
       </TouchableOpacity>
     </View>
   )
@@ -220,23 +220,23 @@ function DetailsScreen({ route }) {
                   backgroundColor={'white'}
                   cellStyle="RightDetail"
                   cellContentView= {
-                    <View style={styles.detailCellContainer}>
-                      <View style={styles.detailImageTextContainer}>
+                    <View style={styles.detailItemRow}>
+                      <View style={styles.detailItemImageText}>
                         <Image
                           source={item.image}
                           style={{ width: 50, height: 50, borderRadius: 10 }}
                           resizeMode='cover'
                         />
                         <View>
-                          <Text style={styles.detailCellTitle}>{item.title}</Text>
-                          <Text style={styles.detailCellPrice}>{item.price}</Text>
+                          <Text style={styles.detailItemTitle}>{item.title}</Text>
+                          <Text style={styles.detailItemPrice}>{item.price}</Text>
                         </View>
                       </View>
                       <TouchableOpacity
                         onPress={() => {setSelectedFlavour(item);}}
-                        style={styles.ctaSelectButton}
+                        style={styles.detailSelectButton}
                       >
-                        <Text style={styles.ctaSelectButtonText}>
+                        <Text style={styles.detailSelectButtonText}>
                           Select
                         </Text>
                       </TouchableOpacity>
@@ -248,7 +248,7 @@ function DetailsScreen({ route }) {
           </TableView>
         ) : (
           <View>
-            <Text style={styles.selectedFlavourText}>
+            <Text style={styles.detailSelectedFlavourText}>
               Selected Flavour: {selectedFlavour.title}
             </Text>
 
@@ -267,12 +267,12 @@ function DetailsScreen({ route }) {
                     backgroundColor={'white'}
                     cellStyle="RightDetail"
                     cellContentView= {
-                      <View style={styles.detailCellContainer}>
+                      <View style={styles.detailItemRow}>
                         <View>
-                          <Text style={styles.detailCellTitle}>
+                          <Text style={styles.detailItemTitle}>
                             {item.title}
                           </Text>
-                          <Text style={styles.detailCellPrice}>
+                          <Text style={styles.detailItemPrice}>
                             {item.price}
                           </Text>
                         </View>
@@ -297,7 +297,7 @@ function DetailsScreen({ route }) {
           </TableView>
 
           <TouchableOpacity
-            style={styles.addToCartButton}
+            style={styles.detailAddToCartButton}
             onPress={() => {
               const selectedToppingsArray = Object.entries(selectedTopping)
                 .filter(([_, quantity]) => quantity > 0)
@@ -322,7 +322,7 @@ function DetailsScreen({ route }) {
               setToppingPrices({});
             }}
           >
-            <Text style={styles.ctaSelectButtonText}>
+            <Text style={styles.detailSelectButtonText}>
                 Add to Cart
             </Text>
           </TouchableOpacity>
@@ -351,8 +351,8 @@ function CartIcon({ navigation }) {
       </Text>
 
       {cartItems.length > 0 && (
-        <View style={styles.cartItemCountBadge}>
-          <Text style={styles.cartItemCountText}>
+        <View style={styles.cartIconBadge}>
+          <Text style={styles.cartIconBadgeText}>
             {cartItems.length}
           </Text>
         </View>
@@ -411,8 +411,8 @@ function CartScreen() {
 
   if (cartItems.length == 0) {
     return (
-      <View style={[styles.body, styles.emptyCartBody]}>
-        <Text style={styles.emptyCartText}>
+      <View style={[styles.body, styles.cartEmptyContainer]}>
+        <Text style={styles.cartEmptyText}>
           Your cart is currently empty. Add some items to it from the menu.
         </Text>
       </View>
@@ -423,8 +423,8 @@ function CartScreen() {
     <View style={styles.body}>
       <ScrollView>
         {Object.entries(groupedItems).map(([restaurantName, items], index) => (
-          <View key={index} style={styles.cartContainer}>
-            <Text style={styles.cartRestaurantName}>{restaurantName}</Text>
+          <View key={index} style={styles.cartGroupContainer}>
+            <Text style={styles.cartGroupTitle}>{restaurantName}</Text>
 
             {items.map((item, idx) => {
               const flavourPrice = parseFloat(item.flavour.price.replace('£', ''));
@@ -441,35 +441,35 @@ function CartScreen() {
 
               return (
                 <View key={idx} style={styles.cartItemCard}>
-                  <View style={styles.flavourContainer}>
-                    <Text style={[styles.flavourContainerText, styles.flavourContainerTitleText]}>{item.flavour.title}</Text>
-                    <Text style={styles.flavourContainerText}>{item.flavour.price}</Text>
+                  <View style={styles.cartItemHeader}>
+                    <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
+                    <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
                     
                   </View>
 
-                  <View style={styles.toppingsContainer}>
+                  <View style={styles.cartToppingsContainer}>
                     {item.toppings && item.toppings.length > 0 ? (
                       item.toppings.map((topping, toppingIdx) => (
-                        <Text key={toppingIdx} style={styles.toppingsContainerText}>
+                        <Text key={toppingIdx} style={styles.cartToppingsText}>
                           - {topping.quantity}x {topping.title} ({topping.price})
                         </Text>
                       ))
                     ) : (
-                      <Text style={styles.toppingsContainerText}>
+                      <Text style={styles.cartToppingsText}>
                         No toppings selected
                       </Text>
                     )}
                   </View>
 
-                  <View style={styles.cartSubtotalContainer}>
+                  <View style={styles.cartSubtotalRow}>
                     <Text style={styles.cartSubtotalText}>
                       Subtotal: £{subtotal}
                     </Text>
                     <TouchableOpacity
                       onPress={() => removeFromCart(item.id)}
-                      style={styles.removeButton}
+                      style={styles.cartRemoveButton}
                     >
-                      <Text style={styles.removeButtonText}>Remove</Text>
+                      <Text style={styles.cartRemoveButtonText}>Remove</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -481,7 +481,7 @@ function CartScreen() {
 
       </ScrollView>
         <View style={styles.cartCheckoutContainer}>
-          <Text style={styles.totalPriceText}>
+          <Text style={styles.cartTotalPriceText}>
             Total: £{cartItems.reduce((total, item) => {
               const flavourPrice = parseFloat(item.flavour.price.replace('£', ''));
               let totalPrice = flavourPrice;
@@ -497,10 +497,10 @@ function CartScreen() {
           </Text>
 
           <TouchableOpacity
-            style={styles.checkoutButton}
+            style={styles.cartCheckoutButton}
             onPress={cartCheckout}
           >
-            <Text style={styles.checkoutButtonText}>
+            <Text style={styles.cartCheckoutButtonText}>
               Checkout
             </Text>
           </TouchableOpacity>          
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  cellContainer: {
+  homeCard: {
     flex: 1,
     position: 'relative',
     backgroundColor: '#e5e5e5',
@@ -522,16 +522,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
   },
-  contentWrapper: {
+  homeCardContent: {
     flex: 1,
     position: 'relative',
   },
-  restaurantImage: {
+  homeCardImage: {
     width: '100%',
     height: 200,
     borderRadius: 10,
   },
-  etaContainer: {
+  homeEtaBadge: {
     position: 'absolute',
     bottom: -20,
     right: 15,
@@ -543,21 +543,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
   },
-  etaText: {
+  homeEtaBadge: {
     fontSize: 16,
     color: '#000',
     textAlign: 'center',
     fontFamily: 'Poppins_600SemiBold',
   },
-  textWrapper: {
+  homeCardTextWrapper: {
     padding: 10,
   },
-  restaurantTitle: {
+  homeCardTitle: {
     fontSize: 18,
     color: '#000',
     fontFamily: 'Poppins_700Bold',
   },
-  restaurantSubtitle: {
+  homeCardSubtitle: {
     fontSize: 14,
     color: '#525252',
     fontFamily: 'Poppins_400Regular',
@@ -569,7 +569,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     opacity: 0.4,
   },
-  detailCellContainer: {
+  detailItemRow: {
     height: '100%',
     width: '100%',
     flexDirection: 'row',
@@ -581,26 +581,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#e1e1e140',
   },
-  detailImageTextContainer: {
+  detailItemImageText: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 20,
   },
-  detailCellTitle: {
+  detailItemTitle: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
   },
-  detailCellPrice: {
+  detailItemPrice: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     opacity: 0.4,
   },
-  quantityMenuContainer: {
+  detailQuantityControl: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  ctaButton: {
+  detailQuantityButton: {
     backgroundColor: '#f1f1f1',
     width: 45,
     height: 45,
@@ -610,23 +610,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ctaButtonText: {
+  detailQuantityButtonText: {
     fontSize: 20,
     paddingTop: 5,
     fontFamily: 'Poppins_400Regular',
   },
-  quantityText: {
+  detailQuantityText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     marginHorizontal: 20,
   },
-  detailCtaContainer: {
+  detailActionRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
     justifyContent: 'center',
   },
-  addToCartButton: {
+  detailAddToCartButton: {
     backgroundColor: '#24a0ed',
     width: 'full',
     height: 50,
@@ -637,12 +637,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 15,
   },
-  addToCartButtonText: {
+  detailAddToCartButtonText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
   },
-  ctaSelectButton: {
+  detailSelectButton: {
     backgroundColor: '#24a0ed',
     width: 'fit-content',
     height: 'fit-content',
@@ -652,14 +652,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ctaSelectButtonText: {
+  detailSelectButtonText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
     padding: 5,
     textAlign: 'center',
   },
-  selectedFlavourText: {
+  detailSelectedFlavourText: {
     fontSize: 18,
     fontFamily: 'Poppins_600SemiBold',
     marginTop: 20,
@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
     color: '#979797',
     textAlign: 'center',
   },
-  cartItemCountBadge: {
+  cartIconBadge: {
     position: 'absolute',
     top: -5,
     right: -5,
@@ -698,30 +698,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cartItemCountText: {
+  cartIconBadgeText: {
     fontSize: 12,
     fontFamily: 'Poppins_600SemiBold',
     color: '#fff',
     paddingTop: 3,
     textAlign: 'center',
   },
-  emptyCartBody: {
+  cartEmptyContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyCartText: {
+  cartEmptyText: {
     fontSize: 18,
     fontFamily: 'Poppins_400Regular',
     textAlign: 'center',
     color: '#00000080',
     paddingHorizontal: 20,
   },
-  cartContainer: {
+  cartGroupContainer: {
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e1e1e140',
   },
-  cartRestaurantName: {
+  cartGroupTitle: {
     fontSize: 20,
     fontFamily: 'Poppins_700Bold',
     marginBottom: 5,
@@ -735,30 +735,30 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
   },
-  flavourContainer: {
+  cartItemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 2,
     justifyContent: 'space-between',
   },
-  flavourContainerText: {
+  cartItemHeaderText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
   },
-  flavourContainerTitleText: {
+  cartItemHeaderText: {
     fontSize: 17,
     fontFamily: 'Poppins_600SemiBold',
   },
-  toppingsContainer: {
+  cartToppingsContainer: {
     paddingLeft: 10,
     paddingBottom: 10,
   },
-  toppingsContainerText: {
+  cartToppingsText: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
     opacity: 0.6,
   },
-  removeButton: {
+  cartRemoveButton: {
     backgroundColor: '#ff6b6b',
     width: 'fit-content',
     height: 'fit-content',
@@ -770,7 +770,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     
   },
-  removeButtonText: {
+  cartRemoveButtonText: {
     fontSize: 14,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
@@ -786,7 +786,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     gap: 10,
   },
-  checkoutButton: {
+  cartCheckoutButton: {
     backgroundColor: '#24a0ed',
     height: 50,
     paddingVertical: 3,
@@ -796,18 +796,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 15,
   },
-  checkoutButtonText: {
+  cartCheckoutButtonText: {
     fontSize: 15,
     fontFamily: 'Poppins_600SemiBold',
     color: '#fff',
   },
-  totalPriceText: {
+  cartTotalPriceText: {
     fontSize: 20,
     fontFamily: 'Poppins_700Bold',
     color: '#000',
     marginTop: 5,
   },
-  cartSubtotalContainer: {
+  cartSubtotalRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
