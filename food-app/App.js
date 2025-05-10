@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useContext, createContext } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
@@ -52,8 +52,8 @@ const HomeScreenCell = (props) => {
   return (
     <Cell
       height={290}
-      backgroundColor={'white'}
-      highlightColor="#cccccc"
+      backgroundColor={'#fafafa'}
+      highlightColor="#fff"
       onPress={props.action}
       {...props}
       cellContentView={
@@ -66,7 +66,7 @@ const HomeScreenCell = (props) => {
             />
 
             <View style={styles.homeEtaBadge}>
-              <Text style={styles.homeEtaBadge}>
+              <Text style={styles.homeEtaText}>
                 {props.eta}
               </Text>
             </View>
@@ -87,11 +87,43 @@ const HomeScreenCell = (props) => {
 }
 
 function HomeScreen({navigation}) {
+  const { setDeliveryAddress, setDeliveryCost } = useContext(CartContext);
+  const [address, setAddress] = useState('');
+
   return (
     <View style={styles.body}>
       <ScrollView>
+        <View style={styles.homeDeliveryContainer}>
+          <Text style={styles.homeDeliveryInputLabel}>Enter Delivery Address</Text>
+          <View style={styles.homeDeliveryInputRow}>
+            <TextInput
+              style={styles.homeDeliveryInput}
+              placeholder="Leave Blank for Self-Pickup"
+              value={address}
+              onChangeText={setAddress}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                if (address.trim() !== '') {
+                  const deliveryCost = (Math.random() * 2.5 + 1.5).toFixed(2);
+                  setDeliveryAddress(address.trim());
+                  setDeliveryCost(parseFloat(deliveryCost));
+                  alert(`Delivery cost set to £${deliveryCost}`);
+                } else {
+                  alert('Please enter a valid address.');
+                }
+              }}
+              style={styles.homeDeliveryButton}
+            >
+              <Text style={styles.homeDeliveryButtonText}>
+                Set
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <TableView>
-          <Section header="" hideSeparator={true} separatorTintColor="#ccc">
+          <Section header="Popular Restaurants" hideSeparator={true} separatorTintColor="#ccc">
             <HomeScreenCell
               title="Joe's Gelato"
               tagline="Dessert, Ice cream, £££"
@@ -129,7 +161,7 @@ function HomeScreen({navigation}) {
             <HomeScreenCell
               title="Joe's Pancakes"
               tagline="Dessert, Ice cream, £££"
-              eta="30+ mins"
+              eta="20 mins"
               imgUri={require('./images/restaurant/pancake.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Pancakes",
@@ -366,6 +398,8 @@ const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryCost, setDeliveryCost] = useState(null);
 
   const addToCart = (restaurantName, flavour, toppings) => {
     const newItem = {
@@ -387,14 +421,14 @@ const CartProvider = ({ children }) => {
   }
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, deliveryAddress, setDeliveryAddress, deliveryCost, setDeliveryCost }}>
       {children}
     </CartContext.Provider>
   )
 };
 
-function CartScreen() {
-  const { cartItems, removeFromCart, clearCart } = useContext(CartContext);
+function CartScreen({ navigation }) {
+  const { cartItems, removeFromCart, clearCart, deliveryCost, deliveryAddress } = useContext(CartContext);
 
   const groupedItems = cartItems.reduce((groups, item) => {
     if (!groups[item.restaurantName]) {
@@ -405,9 +439,30 @@ function CartScreen() {
   }, {});
 
   const cartCheckout = () => {
-    alert('Checkout successful! Hope to see you again soon!');
+    if (!deliveryAddress || deliveryAddress.trim() === '') {
+      return Alert.alert(
+        'No Delivery Address',
+        'No delivery address was entered. Are you choosing self-pickup instead?',
+        [
+          {
+            text: 'Enter Address',
+            onPress: () => navigation.navigate('Restaurant'),
+            style: 'cancel',
+          },
+          {
+            text: 'Proceed with Self-Pickup',
+            onPress: () => {
+              alert('Checkout successful! Enjoy your meal!');
+              clearCart();
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+    }
+    alert('Checkout successful! Your order is on the way!');
     clearCart();
-  }
+  };
 
   if (cartItems.length == 0) {
     return (
@@ -422,6 +477,20 @@ function CartScreen() {
   return (
     <View style={styles.body}>
       <ScrollView>
+        {deliveryCost !== null && (
+          <View style={styles.cartDeliveryContainer}>
+            <Text style={styles.cartDeliveryHeader}>
+              Delivery Details
+            </Text>
+            <Text style={styles.cartDeliveryAddressText}>
+              Delivery to: {deliveryAddress}
+            </Text>
+            <Text style={styles.cartDeliveryCostText}>
+              Delivery Fee: £{deliveryCost.toFixed(2)}
+            </Text>
+          </View>
+        )}
+
         {Object.entries(groupedItems).map(([restaurantName, items], index) => (
           <View key={index} style={styles.cartGroupContainer}>
             <Text style={styles.cartGroupTitle}>{restaurantName}</Text>
@@ -440,49 +509,50 @@ function CartScreen() {
               const subtotal = (flavourPrice + toppingsTotal).toFixed(2);
 
               return (
-                <View key={idx} style={styles.cartItemCard}>
-                  <View style={styles.cartItemHeader}>
-                    <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
-                    <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
-                    
-                  </View>
+                  <View key={idx} style={styles.cartItemCard}>
+                    <View style={styles.cartItemHeader}>
+                      <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
+                      <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
+                      
+                    </View>
 
-                  <View style={styles.cartToppingsContainer}>
-                    {item.toppings && item.toppings.length > 0 ? (
-                      item.toppings.map((topping, toppingIdx) => (
-                        <Text key={toppingIdx} style={styles.cartToppingsText}>
-                          - {topping.quantity}x {topping.title} ({topping.price})
+                    <View style={styles.cartToppingsContainer}>
+                      {item.toppings && item.toppings.length > 0 ? (
+                        item.toppings.map((topping, toppingIdx) => (
+                          <Text key={toppingIdx} style={styles.cartToppingsText}>
+                            - {topping.quantity}x {topping.title} ({topping.price})
+                          </Text>
+                        ))
+                      ) : (
+                        <Text style={styles.cartToppingsText}>
+                          No toppings selected
                         </Text>
-                      ))
-                    ) : (
-                      <Text style={styles.cartToppingsText}>
-                        No toppings selected
-                      </Text>
-                    )}
-                  </View>
+                      )}
+                    </View>
 
-                  <View style={styles.cartSubtotalRow}>
-                    <Text style={styles.cartSubtotalText}>
-                      Subtotal: £{subtotal}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => removeFromCart(item.id)}
-                      style={styles.cartRemoveButton}
-                    >
-                      <Text style={styles.cartRemoveButtonText}>Remove</Text>
-                    </TouchableOpacity>
+                    <View style={styles.cartSubtotalRow}>
+                      <Text style={styles.cartSubtotalText}>
+                        Subtotal: £{subtotal}
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => removeFromCart(item.id)}
+                        style={styles.cartRemoveButton}
+                      >
+                        <Text style={styles.cartRemoveButtonText}>Remove</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
               );
             })}
           </View>
         ))}
 
-
       </ScrollView>
-        <View style={styles.cartCheckoutContainer}>
-          <Text style={styles.cartTotalPriceText}>
-            Total: £{cartItems.reduce((total, item) => {
+
+      <View style={styles.cartCheckoutContainer}>
+        <Text style={styles.cartTotalPriceText}>
+          Total: £{(
+            cartItems.reduce((total, item) => {
               const flavourPrice = parseFloat(item.flavour.price.replace('£', ''));
               let totalPrice = flavourPrice;
 
@@ -493,18 +563,19 @@ function CartScreen() {
                 });
               }
               return total + totalPrice;
-            }, 0).toFixed(2)}
-          </Text>
+            }, 0) + (deliveryCost || 0)
+          ).toFixed(2)}
+        </Text>
 
-          <TouchableOpacity
-            style={styles.cartCheckoutButton}
-            onPress={cartCheckout}
-          >
-            <Text style={styles.cartCheckoutButtonText}>
-              Checkout
-            </Text>
-          </TouchableOpacity>          
-        </View>
+        <TouchableOpacity
+          style={styles.cartCheckoutButton}
+          onPress={cartCheckout}
+        >
+          <Text style={styles.cartCheckoutButtonText}>
+            Checkout
+          </Text>
+        </TouchableOpacity>          
+      </View>
     </View>
   )
 }
@@ -512,15 +583,16 @@ function CartScreen() {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
   },
   homeCard: {
     flex: 1,
     position: 'relative',
-    backgroundColor: '#e5e5e5',
-    padding: 15,
+    paddingVertical: 10,
     borderRadius: 10,
     marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e1e1e1',
   },
   homeCardContent: {
     flex: 1,
@@ -543,7 +615,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
   },
-  homeEtaBadge: {
+  homeEtaText: {
     fontSize: 16,
     color: '#000',
     textAlign: 'center',
@@ -561,6 +633,49 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#525252',
     fontFamily: 'Poppins_400Regular',
+  },
+  homeDeliveryContainer: {
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e1e1e1',
+  },
+  homeDeliveryInputLabel: {
+    fontSize: 16,
+    fontFamily: 'Poppins_600SemiBold',
+    marginBottom: 5,
+  },
+  homeDeliveryInputRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
+  homeDeliveryInput: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
+    borderWidth: 1,
+    borderColor: '#e1e1e1',
+    flex: 10,
+  },
+  homeDeliveryButton: {
+    backgroundColor: '#24a0ed',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  homeDeliveryButtonText: {
+    fontSize: 16,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#fff',
   },
   detailSectionHeader: {
     fontSize: 17,
@@ -715,6 +830,30 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#00000080',
     paddingHorizontal: 20,
+  },
+  cartDeliveryContainer: {
+    padding: 15,
+    backgroundColor: '#f1f1f1',
+    borderRadius: 10,
+    marginHorizontal: 15,
+    marginTop: 10,
+  },
+  cartDeliveryHeader: {
+    fontSize: 16,
+    fontFamily: 'Poppins_400Regular',
+    marginBottom: 2,
+    textDecorationLine: 'underline',
+    color: '#00000080',
+  },
+  cartDeliveryAddressText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    color: '#00000080',
+  },
+  cartDeliveryCostText: {
+    fontSize: 15,
+    fontFamily: 'Poppins_600SemiBold',
+    color: '#00000080',
   },
   cartGroupContainer: {
     padding: 15,
