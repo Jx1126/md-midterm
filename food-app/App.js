@@ -96,19 +96,19 @@ function HomeScreen({navigation}) {
               title="Joe's Gelato"
               tagline="Dessert, Ice cream, £££"
               eta="10 mins"
-              imgUri={require('./images/restaurant-1.jpg')}
+              imgUri={require('./images/restaurant/gelato.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Gelato",
                 sections: [
                   {
                     'title': 'Gelato Flavours',
                     'contents':[
-                      {'title': 'Vanilla', 'price': '£3.50'},
-                      {'title': 'Chocolate', 'price': '£3.50'},
-                      {'title': 'Strawberry', 'price': '£3.50'},
-                      {'title': 'Pistachio', 'price': '£4.00'},
-                      {'title': 'Biscoff', 'price': '£4.00'},
-                      {'title': 'Tiramisu', 'price': '£4.00'},
+                      {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/vanilla.png')},
+                      {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/chocolate.png')},
+                      {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/strawberry.png')},
+                      {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/pistachio.png')},
+                      {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/biscoff.png')},
+                      {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/tiramisu.png')},
                       ],
                   },
                   {
@@ -130,19 +130,19 @@ function HomeScreen({navigation}) {
               title="Joe's Pancakes"
               tagline="Dessert, Ice cream, £££"
               eta="30+ mins"
-              imgUri={require('./images/restaurant-2.jpg')}
+              imgUri={require('./images/restaurant/pancake.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Pancakes",
                 sections: [
                   {
                     'title': 'Pancake Flavours',
                     'contents':[
-                      {'title': 'Classic', 'price': '£6.50'},
-                      {'title': 'Chocolate', 'price': '£7.00'},
-                      {'title': 'Strawberry', 'price': '£7.00'},
-                      {'title': 'Blueberry', 'price': '£7.00'},
-                      {'title': 'Banana', 'price': '£7.00'},                      
-                      {'title': 'Nutella', 'price': '£8.00'},
+                      {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/classic.png')},
+                      {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/chocolate.png')},
+                      {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/strawberry.png')},
+                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/blueberry.png')},
+                      {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/banana.png')},                      
+                      {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/nutella.png')},
                     ],
                   },
                   {
@@ -221,13 +221,16 @@ function DetailsScreen({ route }) {
                   cellStyle="RightDetail"
                   cellContentView= {
                     <View style={styles.detailCellContainer}>
-                      <View>
-                        <Text style={styles.detailCellTitle}>
-                          {item.title}
-                        </Text>
-                        <Text style={styles.detailCellPrice}>
-                          {item.price}
-                        </Text>
+                      <View style={styles.detailImageTextContainer}>
+                        <Image
+                          source={item.image}
+                          style={{ width: 50, height: 50, borderRadius: 10 }}
+                          resizeMode='cover'
+                        />
+                        <View>
+                          <Text style={styles.detailCellTitle}>{item.title}</Text>
+                          <Text style={styles.detailCellPrice}>{item.price}</Text>
+                        </View>
                       </View>
                       <TouchableOpacity
                         onPress={() => {setSelectedFlavour(item);}}
@@ -577,6 +580,11 @@ const styles = StyleSheet.create({
     gap: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#e1e1e140',
+  },
+  detailImageTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
   },
   detailCellTitle: {
     fontSize: 15,
