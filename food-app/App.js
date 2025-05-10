@@ -135,23 +135,23 @@ function HomeScreen({navigation}) {
                   {
                     'title': 'Gelato Flavours',
                     'contents':[
-                      {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/vanilla.png')},
-                      {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/chocolate.png')},
-                      {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/strawberry.png')},
-                      {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/pistachio.png')},
-                      {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/biscoff.png')},
-                      {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/tiramisu.png')},
+                      {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/flavour/vanilla.png')},
+                      {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/flavour/chocolate.png')},
+                      {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/flavour/strawberry.png')},
+                      {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/flavour/pistachio.png')},
+                      {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/flavour/biscoff.png')},
+                      {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/flavour/tiramisu.png')},
                       ],
                   },
                   {
                     'title': 'Pick Your Toppings',
                     'contents':[
-                      {'title':'Chocolate Sauce', 'price': '£0.50'},
-                      {'title':'Caramel Sauce', 'price': '£0.50'},
-                      {'title':'Sprinkles', 'price': '£0.50'},
-                      {'title':'Whipped Cream', 'price': '£0.50'},
-                      {'title':'Marshmallows', 'price': '£0.50'},
-                      {'title':'Mixed Fruits', 'price': '£1.00'},
+                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/chocolate.png')},
+                      {'title':'Caramel Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/caramel.png')},
+                      {'title':'Sprinkles', 'price': '£0.50', 'image': require('./images/gelato/topping/sprinkles.png')},
+                      {'title':'Whipped Cream', 'price': '£0.50', 'image': require('./images/gelato/topping/cream.png')},
+                      {'title':'Marshmallows', 'price': '£0.50', 'image': require('./images/gelato/topping/marshmallows.png')},
+                      {'title':'Mixed Fruits', 'price': '£1.00', 'image': require('./images/gelato/topping/fruits.png')},
                     ],
                   },
                 ]
@@ -169,23 +169,23 @@ function HomeScreen({navigation}) {
                   {
                     'title': 'Pancake Flavours',
                     'contents':[
-                      {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/classic.png')},
-                      {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/chocolate.png')},
-                      {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/strawberry.png')},
-                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/blueberry.png')},
-                      {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/banana.png')},                      
-                      {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/nutella.png')},
+                      {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/flavour/classic.png')},
+                      {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/flavour/chocolate.png')},
+                      {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/strawberry.png')},
+                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/blueberry.png')},
+                      {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/flavour/banana.png')},                      
+                      {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/flavour/nutella.png')},
                     ],
                   },
                   {
                     'title': 'Pick Your Toppings',
                     'contents':[
-                      {'title':'Maple Syrup', 'price': '£0.50'},
-                      {'title':'Chocolate Sauce', 'price': '£0.50'},
-                      {'title':'Honey', 'price': '£0.80'},
-                      {'title':'Sliced Butter', 'price': '£1.00'},
-                      {'title':'Vanilla Ice Cream', 'price': '£1.50'},
-                      {'title':'Mixed Fruits', 'price': '£2.00'},
+                      {'title':'Maple Syrup', 'price': '£0.50', 'image': require('./images/pancake/topping/maple.png')},
+                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/pancake/topping/chocolate.png')},
+                      {'title':'Honey', 'price': '£0.80', 'image': require('./images/pancake/topping/honey.png')},
+                      {'title':'Sliced Butter', 'price': '£1.00', 'image': require('./images/pancake/topping/butter.png')},
+                      {'title':'Vanilla Ice Cream', 'price': '£1.50', 'image': require('./images/pancake/topping/vanilla.png')},
+                      {'title':'Mixed Fruits', 'price': '£2.00', 'image': require('./images/pancake/topping/fruits.png')},
                     ],
                   }
                 ]
@@ -256,7 +256,7 @@ function DetailsScreen({ route }) {
                       <View style={styles.detailItemImageText}>
                         <Image
                           source={item.image}
-                          style={{ width: 50, height: 50, borderRadius: 10 }}
+                          style={styles.detailItemImage}
                           resizeMode='cover'
                         />
                         <View>
@@ -300,13 +300,16 @@ function DetailsScreen({ route }) {
                     cellStyle="RightDetail"
                     cellContentView= {
                       <View style={styles.detailItemRow}>
-                        <View>
-                          <Text style={styles.detailItemTitle}>
-                            {item.title}
-                          </Text>
-                          <Text style={styles.detailItemPrice}>
-                            {item.price}
-                          </Text>
+                        <View style={styles.detailItemImageText}>
+                          <Image
+                            source={item.image}
+                            style={styles.detailItemImage}
+                            resizeMode='cover'
+                          />
+                          <View>
+                            <Text style={styles.detailItemTitle}>{item.title}</Text>
+                            <Text style={styles.detailItemPrice}>{item.price}</Text>
+                          </View>
                         </View>
                         <QuantityCell
                           item={item}
@@ -695,6 +698,11 @@ const styles = StyleSheet.create({
     gap: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#e1e1e140',
+  },
+  detailItemImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
   },
   detailItemImageText: {
     flexDirection: 'row',
