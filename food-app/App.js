@@ -135,23 +135,23 @@ function HomeScreen({navigation}) {
                   {
                     'title': 'Gelato Flavours',
                     'contents':[
-                      {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/flavour/vanilla.png')},
-                      {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/flavour/chocolate.png')},
-                      {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/flavour/strawberry.png')},
-                      {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/flavour/pistachio.png')},
-                      {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/flavour/biscoff.png')},
-                      {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/flavour/tiramisu.png')},
+                      {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/flavour/vanilla.png'), 'outOfStock': true},
+                      {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/flavour/chocolate.png'), 'outOfStock': false},
+                      {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/flavour/strawberry.png'), 'outOfStock': false},
+                      {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/flavour/pistachio.png'), 'outOfStock': false},
+                      {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/flavour/biscoff.png'), 'outOfStock': false},
+                      {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/flavour/tiramisu.png'), 'outOfStock': true},
                       ],
                   },
                   {
                     'title': 'Pick Your Toppings',
                     'contents':[
-                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/chocolate.png')},
-                      {'title':'Caramel Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/caramel.png')},
-                      {'title':'Sprinkles', 'price': '£0.50', 'image': require('./images/gelato/topping/sprinkles.png')},
-                      {'title':'Whipped Cream', 'price': '£0.50', 'image': require('./images/gelato/topping/cream.png')},
-                      {'title':'Marshmallows', 'price': '£0.50', 'image': require('./images/gelato/topping/marshmallows.png')},
-                      {'title':'Mixed Fruits', 'price': '£1.00', 'image': require('./images/gelato/topping/fruits.png')},
+                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/chocolate.png'), 'outOfStock': false},
+                      {'title':'Caramel Sauce', 'price': '£0.50', 'image': require('./images/gelato/topping/caramel.png'), 'outOfStock': true},
+                      {'title':'Sprinkles', 'price': '£0.50', 'image': require('./images/gelato/topping/sprinkles.png'), 'outOfStock': false},
+                      {'title':'Whipped Cream', 'price': '£0.50', 'image': require('./images/gelato/topping/cream.png'), 'outOfStock': true},
+                      {'title':'Marshmallows', 'price': '£0.50', 'image': require('./images/gelato/topping/marshmallows.png'), 'outOfStock': false},
+                      {'title':'Mixed Fruits', 'price': '£1.00', 'image': require('./images/gelato/topping/fruits.png'), 'outOfStock': false},
                     ],
                   },
                 ]
@@ -169,23 +169,23 @@ function HomeScreen({navigation}) {
                   {
                     'title': 'Pancake Flavours',
                     'contents':[
-                      {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/flavour/classic.png')},
-                      {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/flavour/chocolate.png')},
-                      {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/strawberry.png')},
-                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/blueberry.png')},
-                      {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/flavour/banana.png')},                      
-                      {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/flavour/nutella.png')},
+                      {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/flavour/classic.png'), 'outOfStock': false},
+                      {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/flavour/chocolate.png'), 'outOfStock': false},
+                      {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/strawberry.png'), 'outOfStock': false},
+                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/blueberry.png'), 'outOfStock': true},
+                      {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/flavour/banana.png'), 'outOfStock': false},                      
+                      {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/flavour/nutella.png'), 'outOfStock': true},
                     ],
                   },
                   {
                     'title': 'Pick Your Toppings',
                     'contents':[
-                      {'title':'Maple Syrup', 'price': '£0.50', 'image': require('./images/pancake/topping/maple.png')},
-                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/pancake/topping/chocolate.png')},
-                      {'title':'Honey', 'price': '£0.80', 'image': require('./images/pancake/topping/honey.png')},
-                      {'title':'Sliced Butter', 'price': '£1.00', 'image': require('./images/pancake/topping/butter.png')},
-                      {'title':'Vanilla Ice Cream', 'price': '£1.50', 'image': require('./images/pancake/topping/vanilla.png')},
-                      {'title':'Mixed Fruits', 'price': '£2.00', 'image': require('./images/pancake/topping/fruits.png')},
+                      {'title':'Maple Syrup', 'price': '£0.50', 'image': require('./images/pancake/topping/maple.png'), 'outOfStock': false},
+                      {'title':'Chocolate Sauce', 'price': '£0.50', 'image': require('./images/pancake/topping/chocolate.png'), 'outOfStock': false},
+                      {'title':'Honey', 'price': '£0.80', 'image': require('./images/pancake/topping/honey.png'), 'outOfStock': true},
+                      {'title':'Sliced Butter', 'price': '£1.00', 'image': require('./images/pancake/topping/butter.png'), 'outOfStock': false},
+                      {'title':'Vanilla Ice Cream', 'price': '£1.50', 'image': require('./images/pancake/topping/vanilla.png'), 'outOfStock': true},
+                      {'title':'Mixed Fruits', 'price': '£2.00', 'image': require('./images/pancake/topping/fruits.png'), 'outOfStock': false},
                     ],
                   }
                 ]
@@ -256,22 +256,43 @@ function DetailsScreen({ route, navigation }) {
                       <View style={styles.detailItemImageText}>
                         <Image
                           source={item.image}
-                          style={styles.detailItemImage}
+                          style={[
+                            styles.detailItemImage,
+                            item.outOfStock && styles.detailItemImageOutOfStock,
+                          ]}
                           resizeMode='cover'
                         />
                         <View>
-                          <Text style={styles.detailItemTitle}>{item.title}</Text>
-                          <Text style={styles.detailItemPrice}>{item.price}</Text>
+                          <Text
+                            style={[
+                              styles.detailItemTitle,
+                              item.outOfStock && styles.detailItemTextOutOfStock,
+                            ]}>{item.title}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.detailItemPrice,
+                              item.outOfStock && styles.detailItemTextOutOfStock,
+                            ]}>{item.price}
+                          </Text>
                         </View>
                       </View>
-                      <TouchableOpacity
-                        onPress={() => {setSelectedFlavour(item);}}
-                        style={styles.detailSelectButton}
-                      >
-                        <Text style={styles.detailSelectButtonText}>
-                          Select
-                        </Text>
-                      </TouchableOpacity>
+                      { !item.outOfStock ? (
+                        <TouchableOpacity
+                          onPress={() => {setSelectedFlavour(item);}}
+                          style={styles.detailSelectButton}
+                        >
+                          <Text style={styles.detailSelectButtonText}>
+                            Select
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        <View style={styles.detailSelectButtonOutOfStock}>
+                          <Text style={styles.detailSelectButtonTextOutOfStock}>
+                            Select
+                          </Text>
+                        </View>
+                      )}
                     </View>
                   }
                 />
@@ -303,27 +324,45 @@ function DetailsScreen({ route, navigation }) {
                         <View style={styles.detailItemImageText}>
                           <Image
                             source={item.image}
-                            style={styles.detailItemImage}
+                            style={[
+                              styles.detailItemImage,
+                              item.outOfStock && styles.detailItemImageOutOfStock]}
                             resizeMode='cover'
                           />
                           <View>
-                            <Text style={styles.detailItemTitle}>{item.title}</Text>
-                            <Text style={styles.detailItemPrice}>{item.price}</Text>
+                            <Text
+                              style={[
+                                styles.detailItemTitle,
+                                item.outOfStock && styles.detailItemTextOutOfStock,
+                              ]}>{item.title}</Text>
+                            <Text
+                              style={[
+                                styles.detailItemPrice,
+                                item.outOfStock && styles.detailItemTextOutOfStock,
+                              ]}>{item.price}</Text>
                           </View>
                         </View>
-                        <QuantityCell
-                          item={item}
-                          onQuantityUpdate={(title, quantity, price) => {
-                            setSelectedTopping((prev) => ({
-                              ...prev,
-                              [title]: quantity,
-                            }));
-                            setToppingPrices((prev) => ({
-                              ...prev,
-                              [title]: price,
-                            }));
-                          }}
-                        />
+                        { !item.outOfStock ? (
+                          <QuantityCell
+                            item={item}
+                            onQuantityUpdate={(title, quantity, price) => {
+                              setSelectedTopping((prev) => ({
+                                ...prev,
+                                [title]: quantity,
+                              }));
+                              setToppingPrices((prev) => ({
+                                ...prev,
+                                [title]: price,
+                              }));
+                            }}
+                          />
+                        ) : (
+                          <View style={styles.detailSelectButtonOutOfStock}>
+                            <Text style={styles.detailSelectButtonTextOutOfStock}>
+                              Out of Stock
+                            </Text>
+                          </View>
+                        )}
                       </View>
                     }
                   />
@@ -527,44 +566,42 @@ function CartScreen({ navigation }) {
               const subtotal = (flavourPrice + toppingsTotal).toFixed(2);
 
               return (
-                  <View key={idx} style={styles.cartItemCard}>
-                    <View style={styles.cartItemHeader}>
-                      <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
-                      <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
-                      
-                    </View>
-
-                    <View style={styles.cartToppingsContainer}>
-                      {item.toppings && item.toppings.length > 0 ? (
-                        item.toppings.map((topping, toppingIdx) => (
-                          <Text key={toppingIdx} style={styles.cartToppingsText}>
-                            - {topping.quantity}x {topping.title} ({topping.price})
-                          </Text>
-                        ))
-                      ) : (
-                        <Text style={styles.cartToppingsText}>
-                          No toppings selected
-                        </Text>
-                      )}
-                    </View>
-
-                    <View style={styles.cartSubtotalRow}>
-                      <Text style={styles.cartSubtotalText}>
-                        Subtotal: £{subtotal}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => removeFromCart(item.id)}
-                        style={styles.cartRemoveButton}
-                      >
-                        <Text style={styles.cartRemoveButtonText}>Remove</Text>
-                      </TouchableOpacity>
-                    </View>
+                <View key={idx} style={styles.cartItemCard}>
+                  <View style={styles.cartItemHeader}>
+                    <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
+                    <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
                   </View>
+
+                  <View style={styles.cartToppingsContainer}>
+                    {item.toppings && item.toppings.length > 0 ? (
+                      item.toppings.map((topping, toppingIdx) => (
+                        <Text key={toppingIdx} style={styles.cartToppingsText}>
+                          - {topping.quantity}x {topping.title} ({topping.price})
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.cartToppingsText}>
+                        No toppings selected
+                      </Text>
+                    )}
+                  </View>
+
+                  <View style={styles.cartSubtotalRow}>
+                    <Text style={styles.cartSubtotalText}>
+                      Subtotal: £{subtotal}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => removeFromCart(item.id)}
+                      style={styles.cartRemoveButton}
+                    >
+                      <Text style={styles.cartRemoveButtonText}>Remove</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               );
             })}
           </View>
         ))}
-
       </ScrollView>
 
       <View style={styles.cartCheckoutContainer}>
@@ -719,6 +756,9 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
   },
+  detailItemImageOutOfStock: {
+    opacity: 0.4,
+  },
   detailItemImageText: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -732,6 +772,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     opacity: 0.4,
+  },
+  detailItemTextOutOfStock: {
+    opacity: 0.4,
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
   },
   detailQuantityControl: {
     flexDirection: 'row',
@@ -790,12 +835,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  detailSelectButtonOutOfStock: {
+    backgroundColor: '#f1f1f1',
+    width: 'fit-content',
+    height: 'fit-content',
+    paddingVertical: 3,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   detailSelectButtonText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
     color: '#fff',
     padding: 5,
     textAlign: 'center',
+  },
+  detailSelectButtonTextOutOfStock: {
+    fontSize: 15,
+    fontFamily: 'Poppins_400Regular',
+    color: '#000',
+    padding: 5,
+    textAlign: 'center',
+    opacity: 0.4,
+    textDecorationStyle: 'solid',
   },
   detailSelectedFlavourText: {
     fontSize: 18,
