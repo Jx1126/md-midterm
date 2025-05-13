@@ -357,7 +357,7 @@ function DetailsScreen({ route, navigation }) {
                             }}
                           />
                         ) : (
-                          <View style={styles.detailSelectButtonOutOfStock}>
+                          <View style={styles.detailQuantityButtonOutOfStock}>
                             <Text style={styles.detailSelectButtonTextOutOfStock}>
                               Out of Stock
                             </Text>
@@ -842,6 +842,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     paddingHorizontal: 15,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  detailQuantityButtonOutOfStock: {
+    paddingHorizontal: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
