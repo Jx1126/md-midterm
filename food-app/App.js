@@ -138,6 +138,11 @@ function HomeScreen({navigation}) {
                       {'title': 'Vanilla', 'price': '£3.50', 'image': require('./images/gelato/flavour/vanilla.png'), 'outOfStock': true},
                       {'title': 'Chocolate', 'price': '£3.50', 'image': require('./images/gelato/flavour/chocolate.png'), 'outOfStock': false},
                       {'title': 'Strawberry', 'price': '£3.50', 'image': require('./images/gelato/flavour/strawberry.png'), 'outOfStock': false},
+                      ],
+                  },
+                  {
+                    'title': 'Time Limited Flavours',
+                    'contents':[
                       {'title': 'Pistachio', 'price': '£4.00', 'image': require('./images/gelato/flavour/pistachio.png'), 'outOfStock': false},
                       {'title': 'Biscoff', 'price': '£4.00', 'image': require('./images/gelato/flavour/biscoff.png'), 'outOfStock': false},
                       {'title': 'Tiramisu', 'price': '£4.00', 'image': require('./images/gelato/flavour/tiramisu.png'), 'outOfStock': true},
@@ -172,8 +177,13 @@ function HomeScreen({navigation}) {
                       {'title': 'Classic', 'price': '£6.50', 'image': require('./images/pancake/flavour/classic.png'), 'outOfStock': false},
                       {'title': 'Chocolate', 'price': '£7.00', 'image': require('./images/pancake/flavour/chocolate.png'), 'outOfStock': false},
                       {'title': 'Strawberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/strawberry.png'), 'outOfStock': false},
-                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/blueberry.png'), 'outOfStock': true},
                       {'title': 'Banana', 'price': '£7.00', 'image': require('./images/pancake/flavour/banana.png'), 'outOfStock': false},                      
+                    ],
+                  },
+                  {
+                    'title': 'Time Limited Flavours',
+                    'contents':[
+                      {'title': 'Blueberry', 'price': '£7.00', 'image': require('./images/pancake/flavour/blueberry.png'), 'outOfStock': false},
                       {'title': 'Nutella', 'price': '£8.00', 'image': require('./images/pancake/flavour/nutella.png'), 'outOfStock': true},
                     ],
                   },
@@ -228,7 +238,11 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
 
 function DetailsScreen({ route, navigation }) {
   const { restaurantName, sections } = route.params;
+  const toppingsSectionIndex = sections.length - 1;
+  const flavourSectionIndex = sections.slice(0, toppingsSectionIndex);
+
   const [selectedFlavour, setSelectedFlavour] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(null);
   const [selectedTopping, setSelectedTopping] = useState({});
   const [toppingPrices, setToppingPrices] = useState({});
   const { addToCart } = useContext(CartContext);
@@ -238,66 +252,71 @@ function DetailsScreen({ route, navigation }) {
       <ScrollView>
         {!selectedFlavour ? (
           <TableView>
-            <Section
-              key={sections[0].index}
-              headerComponent= {
-                <Text style={styles.detailSectionHeader}>{sections[0].title}</Text>
-              }
-            >
-              {sections[0].contents.map((item, idx) => (
-                <Cell
-                  key={idx}
-                  title={item.title}
-                  detail={item.price || ''}
-                  backgroundColor={'white'}
-                  cellStyle="RightDetail"
-                  cellContentView= {
-                    <View style={styles.detailItemRow}>
-                      <View style={styles.detailItemImageText}>
-                        <Image
-                          source={item.image}
-                          style={[
-                            styles.detailItemImage,
-                            item.outOfStock && styles.detailItemImageOutOfStock,
-                          ]}
-                          resizeMode='cover'
-                        />
-                        <View>
-                          <Text
+            {flavourSectionIndex.map((section, index) => (
+              <Section
+                key={`section-${index}`}
+                headerComponent= {
+                  <Text style={styles.detailSectionHeader}>{section.title}</Text>
+                }
+              >
+                {section.contents.map((item, idx) => (
+                  <Cell
+                    key={`item-${index}-${idx}`}
+                    title={item.title}
+                    detail={item.price || ''}
+                    backgroundColor={'white'}
+                    cellStyle="RightDetail"
+                    cellContentView= {
+                      <View style={styles.detailItemRow}>
+                        <View style={styles.detailItemImageText}>
+                          <Image
+                            source={item.image}
                             style={[
-                              styles.detailItemTitle,
-                              item.outOfStock && styles.detailItemTextOutOfStock,
-                            ]}>{item.title}
-                          </Text>
-                          <Text
-                            style={[
-                              styles.detailItemPrice,
-                              item.outOfStock && styles.detailItemTextOutOfStock,
-                            ]}>{item.price}
-                          </Text>
+                              styles.detailItemImage,
+                              item.outOfStock && styles.detailItemImageOutOfStock,
+                            ]}
+                            resizeMode='cover'
+                          />
+                          <View>
+                            <Text
+                              style={[
+                                styles.detailItemTitle,
+                                item.outOfStock && styles.detailItemTextOutOfStock,
+                              ]}>{item.title}
+                            </Text>
+                            <Text
+                              style={[
+                                styles.detailItemPrice,
+                                item.outOfStock && styles.detailItemTextOutOfStock,
+                              ]}>{item.price}
+                            </Text>
+                          </View>
                         </View>
+                        { !item.outOfStock ? (
+                          <TouchableOpacity
+                            onPress={() => {
+                              setSelectedFlavour(item);
+                              setSelectedSection(index);
+                            }}
+                            style={styles.detailSelectButton}
+                          >
+                            <Text style={styles.detailSelectButtonText}>
+                              Select
+                            </Text>
+                          </TouchableOpacity>
+                        ) : (
+                          <View style={styles.detailSelectButtonOutOfStock}>
+                            <Text style={styles.detailSelectButtonTextOutOfStock}>
+                              Select
+                            </Text>
+                          </View>
+                        )}
                       </View>
-                      { !item.outOfStock ? (
-                        <TouchableOpacity
-                          onPress={() => {setSelectedFlavour(item);}}
-                          style={styles.detailSelectButton}
-                        >
-                          <Text style={styles.detailSelectButtonText}>
-                            Select
-                          </Text>
-                        </TouchableOpacity>
-                      ) : (
-                        <View style={styles.detailSelectButtonOutOfStock}>
-                          <Text style={styles.detailSelectButtonTextOutOfStock}>
-                            Select
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  }
-                />
-              ))}
-            </Section>
+                    }
+                  />
+                ))}
+              </Section>
+            ))}
           </TableView>
         ) : (
           <View>
@@ -309,10 +328,10 @@ function DetailsScreen({ route, navigation }) {
               <Section
                 key={sections[1].index}
                 headerComponent= {
-                  <Text style={styles.detailSectionHeader}>{sections[1].title}</Text>
+                  <Text style={styles.detailSectionHeader}>{sections[toppingsSectionIndex].title}</Text>
                 }
               >
-                {sections[1].contents.map((item, idx) => (
+                {sections[toppingsSectionIndex].contents.map((item, idx) => (
                   <Cell
                     key={idx}
                     title={item.title}
@@ -397,6 +416,7 @@ function DetailsScreen({ route, navigation }) {
               );
               
               setSelectedFlavour(null);
+              setSelectedSection(null);
               setSelectedTopping({});
               setToppingPrices({});
             }}
