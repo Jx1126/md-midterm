@@ -326,7 +326,6 @@ function DetailsScreen({ route, navigation }) {
 
             <TableView>
               <Section
-                key={sections[1].index}
                 headerComponent= {
                   <Text style={styles.detailSectionHeader}>{sections[toppingsSectionIndex].title}</Text>
                 }
