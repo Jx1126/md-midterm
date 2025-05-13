@@ -126,7 +126,7 @@ function HomeScreen({navigation}) {
           <Section header="Popular Restaurants" hideSeparator={true} separatorTintColor="#ccc">
             <HomeScreenCell
               title="Joe's Gelato"
-              tagline="Dessert, Ice cream, £££"
+              tagline="Dessert, Ice cream, £"
               eta="10 mins"
               imgUri={require('./images/restaurant/gelato.jpg')}
               action={() => navigation.navigate('Menu', {
@@ -165,7 +165,7 @@ function HomeScreen({navigation}) {
 
             <HomeScreenCell
               title="Joe's Pancakes"
-              tagline="Dessert, Ice cream, £££"
+              tagline="Breakfast, Pancakes, ££"
               eta="20 mins"
               imgUri={require('./images/restaurant/pancake.jpg')}
               action={() => navigation.navigate('Menu', {
@@ -196,6 +196,44 @@ function HomeScreen({navigation}) {
                       {'title':'Sliced Butter', 'price': '£1.00', 'image': require('./images/pancake/topping/butter.png'), 'outOfStock': false},
                       {'title':'Vanilla Ice Cream', 'price': '£1.50', 'image': require('./images/pancake/topping/vanilla.png'), 'outOfStock': true},
                       {'title':'Mixed Fruits', 'price': '£2.00', 'image': require('./images/pancake/topping/fruits.png'), 'outOfStock': false},
+                    ],
+                  }
+                ]
+              })}
+            />
+
+            <HomeScreenCell
+              title="Joe's Pizzas"
+              tagline="Fast Food, Pizza, ££"
+              eta="50 mins"
+              imgUri={require('./images/restaurant/pizza.jpg')}
+              action={() => navigation.navigate('Menu', {
+                restaurantName: "Joe's Pizzas",
+                sections: [
+                  {
+                    'title': 'Classic Large Pizzas',
+                    'contents':[
+                      {'title': 'Hawaiian', 'price': '£10.00', 'image': require('./images/pizza/flavour/hawaiian.jpg'), 'outOfStock': false},
+                      {'title': 'Margherita', 'price': '£11.00', 'image': require('./images/pizza/flavour/margherita.jpg'), 'outOfStock': false},
+                      {'title': 'Peperoni', 'price': '£11.50', 'image': require('./images/pizza/flavour/peperoni.jpg'), 'outOfStock': false},
+                    ],
+                  },
+                  {
+                    'title': 'Special Large Pizzas',
+                    'contents':[
+                      {'title': 'Nacho Cheese', 'price': '£12.00', 'image': require('./images/pizza/flavour/nacho.jpg'), 'outOfStock': false},
+                      {'title': 'Seafood', 'price': '£14.00', 'image': require('./images/pizza/flavour/seafood.jpg'), 'outOfStock': false},
+                      {'title': 'Truffle Mushroom', 'price': '£14.00', 'image': require('./images/pizza/flavour/truffle.jpg'), 'outOfStock': false},
+                    ],
+                  },
+                  {
+                    'title': 'Pick Your Toppings',
+                    'contents':[
+                      {'title':'Pineapple', 'price': '£1.00', 'image': require('./images/pizza/topping/pineapple.jpg'), 'outOfStock': false},
+                      {'title':'Olives', 'price': '£1.00', 'image': require('./images/pizza/topping/olives.jpg'), 'outOfStock': true},
+                      {'title':'Cheese', 'price': '£1.00', 'image': require('./images/pizza/topping/cheese.jpg'), 'outOfStock': false},
+                      {'title':'Mushrooom', 'price': '£1.00', 'image': require('./images/pizza/topping/mushroom.jpg'), 'outOfStock': false},
+                      {'title':'Smoked Bacon', 'price': '£2.00', 'image': require('./images/pizza/topping/bacon.jpg'), 'outOfStock': false},
                     ],
                   }
                 ]
