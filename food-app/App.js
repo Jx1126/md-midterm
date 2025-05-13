@@ -131,6 +131,7 @@ function HomeScreen({navigation}) {
               imgUri={require('./images/restaurant/gelato.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Gelato",
+                restaurantImage: require('./images/restaurant/gelato.jpg'),
                 sections: [
                   {
                     'title': 'Gelato Flavours',
@@ -170,6 +171,7 @@ function HomeScreen({navigation}) {
               imgUri={require('./images/restaurant/pancake.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Pancakes",
+                restaurantImage: require('./images/restaurant/pancake.jpg'),
                 sections: [
                   {
                     'title': 'Pancake Flavours',
@@ -209,6 +211,7 @@ function HomeScreen({navigation}) {
               imgUri={require('./images/restaurant/pizza.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Pizzas",
+                restaurantImage: require('./images/restaurant/pizza.jpg'),
                 sections: [
                   {
                     'title': 'Classic Large Pizzas',
@@ -247,6 +250,7 @@ function HomeScreen({navigation}) {
               imgUri={require('./images/restaurant/ricebowl.jpg')}
               action={() => navigation.navigate('Menu', {
                 restaurantName: "Joe's Ricebowls",
+                restaurantImage: require('./images/restaurant/ricebowl.jpg'),
                 sections: [
                   {
                     'title': 'Signature Ricebowls',
@@ -311,7 +315,7 @@ const QuantityCell = ({ item, onQuantityUpdate }) => {
 }
 
 function DetailsScreen({ route, navigation }) {
-  const { restaurantName, sections } = route.params;
+  const { restaurantName, restaurantImage, sections } = route.params;
   const toppingsSectionIndex = sections.length - 1;
   const flavourSectionIndex = sections.slice(0, toppingsSectionIndex);
 
@@ -324,6 +328,16 @@ function DetailsScreen({ route, navigation }) {
   return (
     <View style={styles.body}>
       <ScrollView>
+        <View style={{ alignItems: 'center' }}>
+          <Image
+            source={restaurantImage}
+            style={{ width: '100%', height: 150}}
+            resizeMode="cover"
+          />
+          <Text style={{ fontSize: 22, fontFamily: 'Poppins_700Bold', marginTop: 10 }}>
+            {restaurantName}
+          </Text>
+        </View>
         {!selectedFlavour ? (
           <TableView>
             {flavourSectionIndex.map((section, index) => (
@@ -518,9 +532,6 @@ function CartIcon({ navigation }) {
         style={styles.cartIconImage}
         resizeMode='contain'
       />
-      <Text style={styles.cartIconText}>
-        Cart
-      </Text>
 
       {cartItems.length > 0 && (
         <View style={styles.cartIconBadge}>
@@ -962,32 +973,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    backgroundColor: '#f1f1f1',
     borderRadius: 10,
   },
   cartIconImage: {
-    width: 28,
-    height: 28,
-  },
-  cartIconText: {
-    fontSize: 15,
-    fontFamily: 'Poppins_600SemiBold',
-    color: '#979797',
-    textAlign: 'center',
+    width: 26,
+    height: 26,
+    opacity: 0.6,
   },
   cartIconBadge: {
     position: 'absolute',
-    top: -5,
-    right: -5,
+    top: 0,
+    right: 0,
     backgroundColor: '#24a0ed',
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   cartIconBadgeText: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'Poppins_600SemiBold',
     color: '#fff',
     paddingTop: 3,
