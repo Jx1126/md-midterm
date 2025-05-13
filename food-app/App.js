@@ -328,13 +328,13 @@ function DetailsScreen({ route, navigation }) {
   return (
     <View style={styles.body}>
       <ScrollView>
-        <View style={{ alignItems: 'center' }}>
+        <View style={styles.detailRestaurantSection}>
           <Image
             source={restaurantImage}
-            style={{ width: '100%', height: 150}}
+            style={styles.detailRestaurantImage}
             resizeMode="cover"
           />
-          <Text style={{ fontSize: 22, fontFamily: 'Poppins_700Bold', marginTop: 10 }}>
+          <Text style={styles.detailRestaurantName}>
             {restaurantName}
           </Text>
         </View>
@@ -834,6 +834,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Poppins_600SemiBold',
     color: '#fff',
+  },
+  detailRestaurantSection: {
+    alignItems: 'center',
+  },
+  detailRestaurantImage: {
+    width: '100%',
+    height: 150,
+  },
+  detailRestaurantName: {
+    fontSize: 22,
+    fontFamily: 'Poppins_600SemiBold',
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#00000090',
   },
   detailSectionHeader: {
     fontSize: 17,
