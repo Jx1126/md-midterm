@@ -46,7 +46,7 @@ export default function App() {
       </NavigationContainer>
     </CartProvider>
   );
-};
+}
 
 const HomeScreenCell = (props) => {
   return (
@@ -234,6 +234,42 @@ function HomeScreen({navigation}) {
                       {'title':'Cheese', 'price': '£1.00', 'image': require('./images/pizza/topping/cheese.jpg'), 'outOfStock': false},
                       {'title':'Mushrooom', 'price': '£1.00', 'image': require('./images/pizza/topping/mushroom.jpg'), 'outOfStock': false},
                       {'title':'Smoked Bacon', 'price': '£2.00', 'image': require('./images/pizza/topping/bacon.jpg'), 'outOfStock': false},
+                    ],
+                  }
+                ]
+              })}
+            />
+
+            <HomeScreenCell
+              title="Joe's Ricebowls"
+              tagline="Asian, Ricebowl, ££"
+              eta="30 mins"
+              imgUri={require('./images/restaurant/ricebowl.jpg')}
+              action={() => navigation.navigate('Menu', {
+                restaurantName: "Joe's Ricebowls",
+                sections: [
+                  {
+                    'title': 'Signature Ricebowls',
+                    'contents':[
+                      {'title': 'Yakiniku Don', 'price': '£6.00', 'image': require('./images/ricebowl/flavour/beef.jpg'), 'outOfStock': false},
+                      {'title': 'Shabu Don', 'price': '£6.50', 'image': require('./images/ricebowl/flavour/pork.jpg'), 'outOfStock': false},
+                      {'title': 'Unagi Don', 'price': '£7.00', 'image': require('./images/ricebowl/flavour/unagi.jpg'), 'outOfStock': false},
+                    ],
+                  },
+                  {
+                    'title': 'Specialty Ricebowls',
+                    'contents':[
+                        {'title': 'Bibimbap', 'price': '£8.00', 'image': require('./images/ricebowl/flavour/bibimbap.jpg'), 'outOfStock': false},
+                      {'title': 'Shabu Unagi Combo Don', 'price': '£10.00', 'image': require('./images/ricebowl/flavour/mixed.jpg'), 'outOfStock': false},
+                    ],
+                  },
+                  {
+                    'title': 'Pick Your Toppings',
+                    'contents':[
+                      {'title':'Extra Rice', 'price': '£1.00', 'image': require('./images/ricebowl/topping/rice.jpg'), 'outOfStock': false},
+                      {'title':'Kimchi', 'price': '£1.00', 'image': require('./images/ricebowl/topping/kimchi.jpg'), 'outOfStock': true},
+                      {'title':'Onsen Egg', 'price': '£1.50', 'image': require('./images/ricebowl/topping/egg.jpg'), 'outOfStock': false},
+                      {'title':'Miso Soup', 'price': '£3.00', 'image': require('./images/ricebowl/topping/miso.jpg'), 'outOfStock': false},
                     ],
                   }
                 ]
@@ -493,10 +529,9 @@ function CartIcon({ navigation }) {
           </Text>
         </View>
       )}
-
     </TouchableOpacity>        
   );
-};
+}
 
 const CartContext = createContext();
 
@@ -625,7 +660,7 @@ function CartScreen({ navigation }) {
               return (
                 <View key={idx} style={styles.cartItemCard}>
                   <View style={styles.cartItemHeader}>
-                    <Text style={[styles.cartItemHeaderText, styles.cartItemHeaderText]}>{item.flavour.title}</Text>
+                    <Text style={styles.cartItemHeaderText}>{item.flavour.title}</Text>
                     <Text style={styles.cartItemHeaderText}>{item.flavour.price}</Text>
                   </View>
 
@@ -860,12 +895,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_400Regular',
     marginHorizontal: 20,
   },
-  detailActionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    justifyContent: 'center',
-  },
   detailAddToCartButton: {
     backgroundColor: '#24a0ed',
     width: 'full',
@@ -876,11 +905,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 15,
-  },
-  detailAddToCartButtonText: {
-    fontSize: 15,
-    fontFamily: 'Poppins_400Regular',
-    color: '#fff',
   },
   detailSelectButton: {
     backgroundColor: '#24a0ed',
@@ -1032,10 +1056,6 @@ const styles = StyleSheet.create({
   cartItemHeaderText: {
     fontSize: 15,
     fontFamily: 'Poppins_400Regular',
-  },
-  cartItemHeaderText: {
-    fontSize: 17,
-    fontFamily: 'Poppins_600SemiBold',
   },
   cartToppingsContainer: {
     paddingLeft: 10,
