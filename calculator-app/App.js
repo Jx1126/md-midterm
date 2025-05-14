@@ -12,6 +12,7 @@ export default function App() {
   const [allClear, setAllClear] = useState(true);
   const [historyText, setHistoryText] = useState("");
   const [calculated, setCalculated] = useState(false);
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false);
 
   const handleNumber = (value) => {
     if (readyToReplace) {
@@ -144,11 +145,28 @@ export default function App() {
     }
   };
 
+  const toggleAdvancedMode = (mode) => {
+    setIsAdvancedMode(mode === "advanced");
+  };
+
   ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
 
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar style="light" />
+
+      <View style={styles.modeToggleContainer}>
+        <TouchableOpacity
+          style={[styles.simpleModeToggleButton, styles.modeToggleButton, !isAdvancedMode && styles.modeToggleActiveButton]}
+          onPress={() => toggleAdvancedMode("simple")}>
+          <Text style={styles.modeToggleButtonText}>Simple</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.advancedModeToggleButton, styles.modeToggleButton, isAdvancedMode && styles.modeToggleActiveButton]}
+          onPress={() => toggleAdvancedMode("advanced")}>
+          <Text style={styles.modeToggleButtonText}>Advanced</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.textWrapper}>
         <AutoSizeText fontSize={30} numberOfLines={1} mode={ResizeTextMode.max_lines} style={styles.historyText}>
@@ -323,5 +341,37 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "right",
     lineHeight: buttonDimension,
+  },
+  modeToggleContainer: {
+    position: "absolute",
+    flexDirection: "row",
+    top: 30,
+    width: "70%"
+  },
+  modeToggleButtonText: {
+    color: "#F4F6FB",
+    fontSize: 18,
+    textAlign: "center",
+  },
+  modeToggleButton: {
+    backgroundColor: "#3A5FCD20",
+    borderColor: "#3A5FCD80",
+    borderWidth: 2,
+    padding: 8,
+  },
+  modeToggleActiveButton: {
+    backgroundColor: "#3A5FCD80",
+  },
+  simpleModeToggleButton: {
+    borderTopLeftRadius: 50,
+    borderBottomLeftRadius: 50,
+    borderRightWidth: 1,
+    flex: 2,
+  },
+  advancedModeToggleButton: {
+    borderTopRightRadius: 50,
+    borderBottomRightRadius: 50,
+    borderLeftWidth: 1,
+    flex: 1,
   },
 });
