@@ -177,7 +177,24 @@ export default function App() {
         </AutoSizeText>
       </View>
 
-      <View style={styles.container}>
+      <View style={[styles.container, isAdvancedMode && styles.advancedModeContainer]}>
+        {isAdvancedMode && (
+          <View style={styles.row}>
+            <TouchableOpacity style={[styles.button, styles.operatorButton]} onPress={() => buttonPressed("sin")} >
+              <Text style={styles.advancedModeButtonText}>sin</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.operatorButton]} onPress={() => buttonPressed("cos")} >
+              <Text style={styles.advancedModeButtonText}>cos</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.operatorButton]} onPress={() => buttonPressed("tan")} >
+              <Text style={styles.advancedModeButtonText}>tan</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.operatorButton]} onPress={() => buttonPressed("log")} >
+              <Text style={styles.advancedModeButtonText}>log</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <View style={styles.row}>
           <TouchableOpacity style={[styles.button, styles.functionButton]} onPress={() => buttonPressed("C")} >
             <Text style={styles.numericText}>{ allClear ? "AC" : "C" }</Text>
@@ -350,7 +367,7 @@ const styles = StyleSheet.create({
   },
   modeToggleButtonText: {
     color: "#F4F6FB",
-    fontSize: 18,
+    fontSize: 15,
     textAlign: "center",
   },
   modeToggleButton: {
@@ -373,5 +390,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     borderLeftWidth: 1,
     flex: 1,
+  },
+  advancedModeButtonText: {
+    color: "#AFCBFF",
+    fontSize: 25,
+    textAlign: "center",
+  },
+  advancedModeContainer: {
+    height: screenDimension.height * 0.7,
   },
 });
