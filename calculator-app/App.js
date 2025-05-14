@@ -58,6 +58,31 @@ export default function App() {
     return decimal ? `${formattedWhole}.${decimal}` : formattedWhole;
   };
 
+  const calculateAdvanced = (func) => {
+    const rad = (Math.PI / 180) * parseFloat(answerValue);
+    let result;
+    switch (func) {
+      case "sin":
+        result = Math.sin(rad);
+        break;
+      case "cos":
+        result = Math.cos(rad);
+        break;
+      case "tan":
+        result = Math.tan(rad);
+        break;
+      case "log":
+        result = Math.log10(parseFloat(answerValue));
+        break;
+      default:
+        return;
+    }
+    setHistoryText(`${func}(${formatNumber(answerValue)})`);
+    setAnswerValue(result);
+    setReadyToReplace(true);
+    setCalculated(true);
+  };
+
   const buttonPressed = (value) => {
     if (!isNaN(value)) {
       if (calculated) {
@@ -83,6 +108,11 @@ export default function App() {
       }
       setReadyToReplace(true);
       setAllClear(true);
+      return;
+    }
+
+    if (value === "sin" || value === "cos" || value === "tan" || value === "log") {
+      calculateAdvanced(value);
       return;
     }
 
@@ -383,7 +413,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     borderBottomLeftRadius: 50,
     borderRightWidth: 1,
-    flex: 2,
+    flex: 1,
   },
   advancedModeToggleButton: {
     borderTopRightRadius: 50,
