@@ -23,6 +23,12 @@ export default function App() {
     }
   };
 
+  const fixFloatingPoint = (value) => {
+    if (!isFinite(value)) return 'undefined';
+    if (Math.abs(value) < 1e-10) return 0;
+    return value;
+  };
+
   const calculateEquals = () => {
     const previous = parseFloat(memoryValue);
     const current = parseFloat(answerValue);
@@ -53,12 +59,14 @@ export default function App() {
   };
 
   const formatNumber = (number) => {
+    if (number === "undefined") return "undefined";
     const [whole, decimal] = String(number).split(".");
     const formattedWhole = parseFloat(whole).toLocaleString("en-US");
     return decimal ? `${formattedWhole}.${decimal}` : formattedWhole;
   };
 
   const calculateAdvanced = (func) => {
+    const angle = parseFloat(answerValue);
     const rad = (Math.PI / 180) * parseFloat(answerValue);
     let result;
     switch (func) {
@@ -69,7 +77,11 @@ export default function App() {
         result = Math.cos(rad);
         break;
       case "tan":
-        result = Math.tan(rad);
+        if ((angle % 180 === 90)) {
+          result = "undefined";
+        } else {
+          result = Math.tan(rad);
+        }
         break;
       case "log":
         result = Math.log10(parseFloat(answerValue));
@@ -78,7 +90,7 @@ export default function App() {
         return;
     }
     setHistoryText(`${func}(${formatNumber(answerValue)})`);
-    setAnswerValue(result);
+    setAnswerValue(fixFloatingPoint(result));
     setReadyToReplace(true);
     setCalculated(true);
   };
